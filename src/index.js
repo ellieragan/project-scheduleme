@@ -1,4 +1,3 @@
-/* eslint linebreak-style: ["error", "windows"] */
 import $ from 'jquery';
 import './style.scss';
 

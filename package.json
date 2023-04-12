@@ -32,5 +32,8 @@
   },
   "dependencies": {
     "jquery": "^3.6.4"
+  },
+  "rules": {
+    "linebreak-style": 0
   }
 }

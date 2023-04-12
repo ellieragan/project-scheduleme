@@ -20,5 +20,5 @@
         "no-extra-parens": 0,
         "no-restricted-syntax": [0, "DebuggerStatement"],
         "no-debugger": "warn",
-        "linebreak-style": ["error", "windows"]
+        "linebreak-style": 0
     }}
