@@ -31,7 +31,13 @@
     "vite-plugin-eslint": "^1.8.1"
   },
   "dependencies": {
-    "jquery": "^3.6.4"
+    "@vitejs/plugin-react": "^4.0.0",
+    "axios": "^1.3.6",
+    "jquery": "^3.6.4",
+    "lodash.debounce": "^4.0.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.10.0"
   },
   "rules": {
     "linebreak-style": 0
