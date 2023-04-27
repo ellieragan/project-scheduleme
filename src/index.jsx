@@ -4,7 +4,17 @@ import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter, Routes, Route, NavLink, useParams,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducers';
+import Counter from './components/counter';
 import './style.scss';
+import Controls from './components/controls';
+
+// this creates the store with the reducers
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 function App(props) {
   return (
@@ -26,7 +36,13 @@ function About(props) {
   return <div> All there is to know about me </div>;
 }
 function Welcome(props) {
-  return <div>Welcome</div>;
+  return (
+    <div>
+      <div>Welcome</div>
+      <Counter />
+      <Controls />
+    </div>
+  );
 }
 
 function Test(props) {
@@ -52,4 +68,8 @@ function Nav(props) {
 }
 
 const root = createRoot(document.getElementById('main'));
-root.render(<App />);
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+);
