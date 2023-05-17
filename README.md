@@ -28,5 +28,6 @@ When2Meet for the 21st century. Integrate your Google Calendar with one click to
 * Rachel Pontes, designer and developer
 * Ellie Boyd, designer and developer
 * Zakiya Nasiru, designer and developer
+* Camille Yang, designer and developer
 
 ## Acknowledgments
