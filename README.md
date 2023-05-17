@@ -3,7 +3,7 @@
 ![Team Photo](Insert a Team Photo URL here)
 [*how?*](https://help.github.com/articles/about-readmes/#relative-links-and-image-paths-in-readme-files)
 
-TODO: short project description, some sample screenshots or mockups
+When2Meet for the 21st century. Integrate your Google Calendar with one click to schedule meetings with coworkers and classmates.
 
 ## Architecture
 
@@ -24,6 +24,7 @@ TODO: short project description, some sample screenshots or mockups
 
 ## Authors
 * Maria Cristoforo, designer and developer
+* Chloe Fugle, designer and developer
 * Rachel Pontes, designer and developer
 * Ellie Boyd, designer and developer
 * Zakiya Nasiru, designer and developer
