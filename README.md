@@ -7,15 +7,20 @@ TODO: short project description, some sample screenshots or mockups
 
 ## Architecture
 
-TODO:  descriptions of code organization and tools and libraries used
+* react.js
+* eslint
+* vite
+* babel
+* redux
 
 ## Setup
 
-TODO: how to get the project dev environment up and running, npm install etc
+* npm install
+* npm run dev
 
 ## Deployment
 
-TODO: how to deploy the project
+* render deploy info: command: npm run build, folder: dist
 
 ## Authors
 
