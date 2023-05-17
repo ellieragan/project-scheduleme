@@ -23,7 +23,9 @@ When2Meet for the 21st century. Integrate your Google Calendar with one click to
 * render deploy info: command: npm run build, folder: dist
 
 ## Authors
-
-Chloe Fugle
+* Chloe Fugle
+* Maria Cristoforo '24
+* Rachel Pontes, designer and developer
+* Ellie Boyd
 
 ## Acknowledgments
