@@ -24,7 +24,8 @@ TODO: short project description, some sample screenshots or mockups
 
 ## Authors
 
-TODO: list of authors
+
+* Maria Cristoforo '24
 * Rachel Pontes, designer and developer
 * Ellie Boyd
 
