@@ -26,4 +26,7 @@ TODO: short project description, some sample screenshots or mockups
 
 TODO: list of authors
 Zakiya Nasiru
+* Rachel Pontes, designer and developer
+* Ellie Boyd
+
 ## Acknowledgments
