@@ -25,6 +25,7 @@ TODO: short project description, some sample screenshots or mockups
 ## Authors
 
 TODO: list of authors
-Ellie Boyd
+* Rachel Pontes, designer and developer
+* Ellie Boyd
 
 ## Acknowledgments
