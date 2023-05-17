@@ -23,10 +23,9 @@ TODO: short project description, some sample screenshots or mockups
 * render deploy info: command: npm run build, folder: dist
 
 ## Authors
-
-TODO: list of authors
-Zakiya Nasiru
+* Maria Cristoforo, designer and developer
 * Rachel Pontes, designer and developer
-* Ellie Boyd
+* Ellie Boyd, designer and developer
+* Zakiya Nasiru, designer and developer
 
 ## Acknowledgments
