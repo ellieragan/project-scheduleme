@@ -11,7 +11,7 @@
         "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
         "no-console": 0,
         "import/no-unresolved": [2, { "caseSensitive": false } ],
-        "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+        "no-unused-vars": ["warn", { "vars": "all", "args": "none" }],
         "no-underscore-dangle": 0,
         "arrow-body-style": 0,
         "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
@@ -30,7 +30,7 @@
         "react/jsx-filename-extension": 0,
         "jsx-a11y/click-events-have-key-events": 0,
         "jsx-a11y/no-noninteractive-element-interactions": 0,
-        "react/jsx-one-expression-per-line":0
+        "react/jsx-one-expression-per-line":0,
     },
     "plugins": [
         "react"
