@@ -9,14 +9,16 @@ function Main(props) {
       '1.9.1': {
         id: '1.9.1',
         day: 1,
-        time: '9.1',
+        time: 9,
+        block: 1,
         availableCount: 2,
-        avalible: ['bob', 'sally'],
+        available: ['bob', 'sally'],
       },
       '4.10.3': {
         id: '4.10.3',
         day: 4,
-        time: '10.3',
+        time: 3,
+        block: 3,
         availableCount: 4,
         available: ['bob', 'sally', 'abby', 'tim'],
       },
@@ -41,11 +43,10 @@ function Main(props) {
   const createCalendar = (start, end) => {
     for (let d = 0; d < 7; d += 1) { // 7 days in week
       for (let t = start; t < end + 1; t += 1) { // hours specified
-        for (let m = 0; m < 4; m += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
-          const timeString = `${String(d)}.${String(t)}.${String(m)}`;
-          const shortTimeString = `${String(t)}.${String(m)}`;
+        for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
+          const timeString = `${String(d)}.${String(t)}.${String(b)}`;
           const timeItem = ({
-            id: timeString, day: d, time: String(shortTimeString), availableCount: 0, available: [],
+            id: timeString, day: d, time: t, block: b, availableCount: 0, available: [],
           });
           timeList[timeString] = timeItem;
         }
@@ -76,6 +77,7 @@ function Main(props) {
               <Event id={timeId}
                 day={details.day}
                 time={details.time}
+                block={details.block}
                 availableCount={details.availableCount}
                 available={details.available}
               />

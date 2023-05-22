@@ -7,6 +7,7 @@ function Event(props) {
       id={props.id}
       data-day={props.day}
       data-time={props.time}
+      data-block={props.block}
       data-avail-count={props.availableCount}
       data-avail={props.available}
     />
