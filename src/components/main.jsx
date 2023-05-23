@@ -29,11 +29,9 @@ function Main(props) {
   const [eventList, setEventList] = useState({});
 
   const updateEvent = (id, fields) => { // modified from Chloe Fugle lab 3
-    console.log(id);
-    console.log(fields);
     setEventList(
       produce((draft) => {
-        draft.notes[id] = { ...draft.notes[id], ...fields };
+        draft[id] = { ...draft[id], ...fields };
       }),
     );
   };
@@ -41,9 +39,10 @@ function Main(props) {
   // create an empty calendar
   const timeList = {};
   const createCalendar = (start, end) => {
-    for (let d = 0; d < 7; d += 1) { // 7 days in week
-      for (let t = start; t < end + 1; t += 1) { // hours specified
-        for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
+    // for loop order is kind of funky because it is easier to change it in the DOM than manipulate it with CSS grid
+    for (let t = start; t < end + 1; t += 1) { // hours specified
+      for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
+        for (let d = 0; d < 7; d += 1) { // 7 days in week
           const timeString = `${String(d)}.${String(t)}.${String(b)}`;
           const timeItem = ({
             id: timeString, day: d, time: t, block: b, availableCount: 0, available: [],
@@ -52,11 +51,8 @@ function Main(props) {
         }
       }
     }
-    console.log(timeList);
     return timeList;
   };
-  const emptyEventList = createCalendar(times.start, times.end);
-  useEffect(() => { setEventList(emptyEventList); }, []);
 
   // add events to the blank calendar
   const updateCalendar = () => {
@@ -64,9 +60,17 @@ function Main(props) {
       updateEvent(id, details);
       return (0);
     });
-    console.log(eventList);
   };
-  // useEffect(() => { updateCalendar(); }, []);
+
+  async function loadCalendar() {
+    await setEventList(createCalendar(times.start, times.end));
+    await updateCalendar();
+  }
+
+  useEffect(() => {
+    loadCalendar();
+  }, []);
+  console.log(eventList);
 
   return (
     <div id="mainContainer">
