@@ -68,4 +68,13 @@ body, html {
   visibility: visible;
 }
 
+
+[data-avail-count="2"]{
+  background-color:rgb(130, 196, 255);
+}
+
+[data-avail-count="4"]{
+  background-color:rgb(68, 165, 250);
+}
+
   
