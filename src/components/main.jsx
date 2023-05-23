@@ -22,10 +22,28 @@ function Main(props) {
         availableCount: 4,
         available: ['bob', 'sally', 'abby', 'tim'],
       },
+      '5.11.2': {
+        id: '5.11.2',
+        day: 5,
+        time: 11,
+        block: 2,
+        availableCount: 6,
+        available: ['bob', 'sally', 'abby', 'tim', 'kat', 'ella'],
+      },
     },
   );
+  const startColor = {
+    red: 245,
+    green: 245,
+    blue: 245,
+  };
+  const endColor = {
+    red: 30,
+    green: 150,
+    blue: 254,
+  };
+  let maxAvail = 0;
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
-
   const [eventList, setEventList] = useState({});
 
   const updateEvent = (id, fields) => { // modified from Chloe Fugle lab 3
@@ -62,15 +80,47 @@ function Main(props) {
     });
   };
 
+  // style events based on number of people available
+  const calcMaxAvailable = () => { // calculate the maximum number of people available
+    const eventArray = Object.values(eventList);
+    const availArray = Object.values(eventArray);
+    Object.entries(availArray).map(([id, details]) => {
+      if (details.availableCount > maxAvail) {
+        maxAvail = details.availableCount;
+      }
+      return (maxAvail);
+    });
+  };
+  calcMaxAvailable();
+
+  const calcGradient = (numAvail) => { // calculate the color an event should be based on the number of people available
+    // code modified from code by desau at https://stackoverflow.com/questions/3080421/javascript-color-gradient
+
+    const percentFade = numAvail / maxAvail;
+
+    let diffRed = endColor.red - startColor.red;
+    let diffGreen = endColor.green - startColor.green;
+    let diffBlue = endColor.blue - startColor.blue;
+
+    diffRed = (diffRed * percentFade) + startColor.red;
+    diffGreen = (diffGreen * percentFade) + startColor.green;
+    diffBlue = (diffBlue * percentFade) + startColor.blue;
+
+    const newColor = { backgroundColor: `rgb(${String(diffRed)},${String(diffGreen)},${String(diffBlue)})` };
+    console.log(newColor);
+    return (newColor);
+  };
+
+  // load the blank calendar, then load user events and style them
   async function loadCalendar() {
     await setEventList(createCalendar(times.start, times.end));
     await updateCalendar();
-  }
 
+    return (maxAvail);
+  }
   useEffect(() => {
     loadCalendar();
   }, []);
-  console.log(eventList);
 
   return (
     <div id="mainContainer">
@@ -84,6 +134,7 @@ function Main(props) {
                 block={details.block}
                 availableCount={details.availableCount}
                 available={details.available}
+                color={calcGradient(details.availableCount, maxAvail)}
               />
             );
           })}
