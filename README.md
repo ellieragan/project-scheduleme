@@ -5,6 +5,9 @@
 
 When2Meet for the 21st century. Integrate your Google Calendar with one click to schedule meetings with coworkers and classmates.
 
+#### Deployed link: https://scheduleatnow.onrender.com/
+#### API link: https://scheduleatnow-api.onrender.com
+
 ## Architecture
 
 * react.js
