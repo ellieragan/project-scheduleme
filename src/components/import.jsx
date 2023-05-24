@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 
 const config = {
@@ -13,18 +13,48 @@ const config = {
 const apiCalendar = new ApiCalendar(config);
 
 function Import() {
+  const content = [];
+  const eventTitles = [];
+  const startTimes = [];
+  const endTimes = [];
   const handleClick = () => {
     apiCalendar.handleAuthClick();
   };
   const handleListClick = () => {
-    apiCalendar.listUpcomingEvents(10).then(({ result }) => {
+    apiCalendar.listEvents({
+      timeMin: '2023-05-24T10:00:00-07:00',
+      timeMax: '2023-05-30T10:00:00-07:00',
+      showDeleted: false,
+      // maxResults: 10,
+      orderBy: 'updated',
+    }).then(({ result }) => {
       console.log(result.items);
+      // console.log(result.items[0].start.dateTime);
+      // setContent(result.items.start);
+      result.items.forEach((event) => {
+        // Extract the title, start time, and end time for each event
+
+        const title = event.summary;
+        const startTime = event.start.dateTime;
+        const endTime = event.end.dateTime;
+        const fullEvent = `${title}, Starts: ${startTime}, Ends: ${endTime}`;
+
+        // Save the extracted data to the respective variables
+        eventTitles.push(title);
+        startTimes.push(startTime);
+        endTimes.push(endTime);
+        console.log(fullEvent);
+        content.push(fullEvent);
+      });
     });
   };
+  // const arrayDataItems = content.map((singleEvent) => <li>{singleEvent}</li>);
+
   return (
     <div>
       <button type="button" onClick={handleClick}>Sign in</button>
       <button type="button" onClick={handleListClick}>List all events</button>
+      {/* <ul>{arrayDataItems}</ul> */}
     </div>
   );
 }
