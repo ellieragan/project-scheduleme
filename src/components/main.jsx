@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { produce } from 'immer';
 import Event from './event';
 import { getAllEvents } from '../actions';
+import Buttons from './buttons';
 
 function Main(props) {
   const dispatch = useDispatch();
@@ -147,7 +148,7 @@ function Main(props) {
           <p>avaliable graph</p>
         </div>
         <div id="buttonsContainer">
-          <h1>buttons</h1>
+          <Buttons />
         </div>
       </div>
     </div>
