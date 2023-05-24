@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // citation: followed from Cristoforo Lab 4
 
-const ROOT_URL = 'https://scheduleatnow-api.onrender.com/';
+const ROOT_URL = 'https://scheduleatnow-api.onrender.com/api';
 const API_KEY = '?key=M_CRISTOFORO';
 // keys for actiontypes
 const ActionTypes = {

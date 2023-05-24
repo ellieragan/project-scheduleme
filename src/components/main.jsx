@@ -1,37 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { produce } from 'immer';
 import Event from './event';
+import { getAllEvents } from '../actions';
 
 function Main(props) {
+  const dispatch = useDispatch();
+  const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
+
   // fake availabilities
-  const [eventInput, setEventInput] = useState(
-    {
-      '1.9.1': {
-        id: '1.9.1',
-        day: 1,
-        time: 9,
-        block: 1,
-        availableCount: 2,
-        available: ['bob', 'sally'],
-      },
-      '4.10.3': {
-        id: '4.10.3',
-        day: 4,
-        time: 3,
-        block: 3,
-        availableCount: 4,
-        available: ['bob', 'sally', 'abby', 'tim'],
-      },
-      '5.11.2': {
-        id: '5.11.2',
-        day: 5,
-        time: 11,
-        block: 2,
-        availableCount: 6,
-        available: ['bob', 'sally', 'abby', 'tim', 'kat', 'ella'],
-      },
-    },
-  );
+  const [eventInput, setEventInput] = useState([]);
   const startColor = {
     red: 245,
     green: 245,
@@ -43,6 +21,7 @@ function Main(props) {
     blue: 254,
   };
   let maxAvail = 0;
+  // eslint-disable-next-line no-unused-vars
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
 
@@ -107,7 +86,7 @@ function Main(props) {
     diffBlue = (diffBlue * percentFade) + startColor.blue;
 
     const newColor = { backgroundColor: `rgb(${String(diffRed)},${String(diffGreen)},${String(diffBlue)})` };
-    console.log(newColor);
+    // console.log(newColor);
     return (newColor);
   };
 
@@ -115,16 +94,39 @@ function Main(props) {
   async function loadCalendar() {
     await setEventList(createCalendar(times.start, times.end));
     await updateCalendar();
-
     return (maxAvail);
   }
   useEffect(() => {
-    loadCalendar();
+    dispatch(getAllEvents());
+    loadCalendar(); // initial load of the calendar
   }, []);
+
+  useEffect(() => {
+    setEventInput(allEvents); // once events are gotten from useSelector, set state
+  }, [allEvents]);
+
+  useEffect(() => {
+    loadCalendar(); // reloads calendar after events are populated
+    console.log(eventInput);
+  }, [eventInput]);
 
   return (
     <div id="mainContainer">
       <div id="leftMain">
+        <p>proof that frontend and backend are linked, list of sample events from backend (created with postman): </p>
+        {Object.entries(eventInput).map(([id, details]) => {
+          return (
+            <div style={{
+              border: '3px solid red', display: 'flex', flexDirection: 'row', marginBottom: 5,
+            }}
+            >
+              <p style={{ margin: 3 }}>day: {details.day} </p>
+              <p style={{ margin: 3 }}>time: {details.time} </p>
+              <p style={{ margin: 3 }}>block: {details.block} </p>
+              <p style={{ margin: 3 }}>people available: {details.count} </p>
+            </div>
+          );
+        })}
         <div className="calendarGrid" id="mainCalendar">
           {Object.entries(eventList).map(([timeId, details]) => {
             return (
