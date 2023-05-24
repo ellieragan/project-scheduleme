@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { MdLink, MdOutlineCloudUpload, MdOutlineCalendarToday } from 'react-icons/md';
