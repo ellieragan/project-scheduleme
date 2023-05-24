@@ -1,11 +1,26 @@
 import React from 'react';
 
-function Timeslot() {
+function Timeslot(props) {
+  const style = {
+    backgroundColor: props.color,
+  };
+
   return (
-    <div className="empty-slot">
-      empty
-      {/* Add styling, draggable stuff, etc for the empty slot */}
-    </div>
+    <button
+      type="button"
+      className="timeslot"
+      id={props.id}
+      data-day={props.day}
+      data-time={props.time}
+      data-start={props.start}
+      data-end={props.end}
+      data-block={props.block}
+      data-busy={props.busy}
+      style={style}
+      onClick={props.onClick}
+    >
+      {/* {props.id} */}
+    </button>
   );
 }
 

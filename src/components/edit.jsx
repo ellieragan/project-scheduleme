@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
-import Event from './event';
 import Timeslot from './timeslot';
 
 function Edit(props) {
   // fake gcal events
-  const [eventInput, setEventInput] = useState(
+  const [gcalInput, setGcalInput] = useState(
     {
-      '2.12.1': {
-        id: '2.12.1',
-        busy: true,
-        day: 2,
-        time: 12,
-        block: 1,
-      },
-      '5.10.2': {
-        id: '5.10.2',
-        busy: true,
-        day: 5,
+      '4.10.1': {
+        id: '4.10.1',
+        day: 4,
         time: 10,
-        block: 2,
+        start: 10,
+        end: 11,
+        block: 1,
+        busy: true,
+      },
+      '3.12.0': {
+        id: '3.12.0',
+        day: 3,
+        time: 12,
+        start: 12,
+        end: 15,
+        block: 0,
+        busy: true,
       },
     },
   );
-  const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
 
+  const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
   const [emptySlots, setEmptySlots] = useState([]);
 
@@ -38,29 +41,33 @@ function Edit(props) {
     );
   };
 
-  // create an empty calendar
   const timeList = {};
   const createCalendar = (start, end) => {
-    for (let d = 0; d < 7; d += 1) { // 7 days in week
-      for (let t = start; t < end + 1; t += 1) { // hours specified
-        for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
+    for (let t = start; t < end + 1; t += 1) { // hours specified
+      for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
+        for (let d = 0; d < 7; d += 1) { // 7 days in week
           const timeString = `${String(d)}.${String(t)}.${String(b)}`;
-          const timeItem = ({
-            id: timeString, day: d, time: t, block: b, busy: false, availableCount: 0, available: [],
-          });
+          const timeItem = {
+            id: timeString,
+            day: d,
+            time: t,
+            block: b,
+            busy: false,
+            // color: { backgroundColor: 'white' }, // Set initial color
+          };
           timeList[timeString] = timeItem;
         }
       }
     }
-    console.log('timelist: ', timeList);
     return timeList;
   };
+
   const emptyEventList = createCalendar(times.start, times.end);
   useEffect(() => { setEventList(emptyEventList); }, []);
 
   // add events to the blank calendar
   const updateCalendar = () => {
-    Object.entries(eventInput).map(([id, details]) => {
+    Object.entries(gcalInput).map(([id, details]) => {
       updateEvent(id, details);
       return (0);
     });
@@ -71,66 +78,90 @@ function Edit(props) {
     await updateCalendar();
   }
 
-  const fillCalendar = () => {
-    const newEmptySlots = [];
-    Object.entries(eventList).forEach(([timeId, details]) => {
-      const event = details;
-      if (!event) {
-        newEmptySlots.push({
-          id: `${timeId}.empty`,
-          day: details.day,
-          time: details.time,
-          block: details.block,
-          busy: event ? event.busy : false,
-          availableCount: 0,
-          available: [],
-        });
-      }
-    });
-    setEmptySlots(newEmptySlots);
-  };
-
   useEffect(() => {
     loadCalendar();
-    fillCalendar();
+    // fillCalendar();
   }, []);
+
+  // const fillCalendar = () => {
+  //   const newEmptySlots = [];
+  //   Object.entries(eventList).forEach(([timeId, details]) => {
+  //     if (!details.busy) {
+  //       newEmptySlots.push({
+  //         id: `${timeId}.empty`,
+  //         day: details.day,
+  //         time: details.time,
+  //         block: details.block,
+  //         start: details.start,
+  //         end: details.end,
+  //         busy: false,
+  //       });
+  //     }
+  //   });
+  //   setEmptySlots(newEmptySlots);
+  // };
+
+  // useEffect(() => {
+  //   fillCalendar();
+  // }, []);
+
+  const handleTimeslotClick = (id) => {
+    setEventList((prevEventList) => {
+      const updatedEventList = {
+        ...prevEventList,
+        [id]: {
+          ...prevEventList[id],
+          busy: !prevEventList[id].busy,
+        },
+      };
+      return updatedEventList;
+    });
+
+    // const event = eventList[id];
+    // if (event && event.busy) {
+    //   updateEvent(id, { busy: false });
+    // } else {
+    //   updateEvent(id, { busy: true });
+    // }
+  };
+
+  const handleDoneClick = (id) => {
+    console.log('done!');
+  };
+
+  const getTimeslotColor = (id, details, gcalIn) => {
+    const isGcalEvent = Object.keys(gcalIn).includes(id);
+
+    if (isGcalEvent) {
+      return 'blue';
+    } else if (details.busy) {
+      return 'white';
+    } else {
+      return 'gray';
+    }
+  };
+
   console.log('events: ', eventList);
   console.log('empty slots:', emptySlots);
 
-  // useEffect(() => { updateCalendar(); }, []);
-
   return (
     <div id="editPage">
-      <div className="calendarGrid" id="editCalendar">
+      <div className="editGrid editCalendar" id="editCalendar">
         {Object.entries(eventList).map(([timeId, details]) => (
-          <Event
+          <Timeslot
             key={timeId}
             id={timeId}
             day={details.day}
             time={details.time}
             block={details.block}
-            availableCount={details.availableCount}
-            available={details.available}
+            color={getTimeslotColor(timeId, details, gcalInput)}
+            busy={details.busy}
+            onClick={() => handleTimeslotClick(timeId)}
           />
         ))}
-        {emptySlots.map((emptySlot) => {
-          const { id, day, time } = emptySlot;
-          return (
-            <div
-              key={id}
-              className="emptySlot"
-              style={{
-                gridRow: `${time + 2} / span 1`,
-                gridColumn: `${day + 1} / span 1`,
-              }}
-            >
-              <Timeslot />
-            </div>
-          );
-        })}
       </div>
       <div id="editButton">
-        <button type="button" className="button">Done</button>
+        <button type="button" className="button" onClick={handleDoneClick}>Done</button>
       </div>
     </div>
   );
