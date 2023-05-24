@@ -1,4 +1,3 @@
-import React, { ReactNode, SyntheticEvent } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 
 const config = {
@@ -11,16 +10,3 @@ const config = {
 };
 
 const apiCalendar = new ApiCalendar(config);
-
-function Import() {
-  const handleClick = () => {
-    apiCalendar.handleAuthClick();
-  };
-  return (
-    <div>
-      <button type="button" onClick={handleClick}>Sign in</button>
-    </div>
-  );
-}
-
-export default Import;
