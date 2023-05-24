@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
 import Event from './event';
+import Buttons from './buttons';
 
 function Main(props) {
   // fake availabilities
@@ -145,7 +146,7 @@ function Main(props) {
           <p>avaliable graph</p>
         </div>
         <div id="buttonsContainer">
-          <h1>buttons</h1>
+          <Buttons />
         </div>
       </div>
     </div>

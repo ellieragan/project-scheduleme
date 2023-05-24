@@ -45,6 +45,45 @@ body, html {
   box-sizing: border-box;
 }
 
+#buttonContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+}
+
+#mainButtonContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#buttonIconContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  border-style: solid;
+  border-radius: 20px;
+  margin: 0;
+  height: fit-content;
+  padding: 8px;
+}
+
+#buttonIconContainer button{
+  border: none;
+  background-color: transparent;
+}
+
+#buttonIconContainer:hover{
+  cursor: pointer;
+}
+
 .event:hover{
   transform: scale(1.01);
   box-shadow: 1px 1px 1px rgb(185, 185, 185);
@@ -77,4 +116,3 @@ body, html {
   background-color:rgb(68, 165, 250);
 }
 
-  
