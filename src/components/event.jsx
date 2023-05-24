@@ -12,6 +12,7 @@ function Event(props) {
         data-avail-count={props.availableCount}
         data-avail={props.available}
         style={props.color}
+      >
         <p className="tooltiptext">{props.available.join(', ')}</p>
       </div>
     );
