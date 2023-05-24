@@ -80,8 +80,28 @@ body, html {
   background-color: transparent;
 }
 
-#buttonIconContainer:hover{
+#buttonIconContainer:hover, #icon:hover{
   cursor: pointer;
+}
+
+#importModal{
+  border-style: solid;
+  border-color: black;
+  background-color: white;
+}
+
+#shareLinkModal{
+  width: 100%;
+  height: 300px;
+  align-items: center;
+
+}
+
+#shareLink{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
 }
 
 .event:hover{
@@ -115,4 +135,5 @@ body, html {
 [data-avail-count="4"]{
   background-color:rgb(68, 165, 250);
 }
+
 
