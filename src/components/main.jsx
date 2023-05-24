@@ -4,35 +4,15 @@ import { produce } from 'immer';
 import Event from './event';
 import { getAllEvents } from '../actions';
 import Buttons from './buttons';
+import color from '../helper/color';
 
 function Main(props) {
   const dispatch = useDispatch();
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
-
-  // fake availabilities
   const [eventInput, setEventInput] = useState([]);
-  const startColor = {
-    red: 245,
-    green: 245,
-    blue: 245,
-  };
-  const endColor = {
-    red: 30,
-    green: 150,
-    blue: 254,
-  };
-  let maxAvail = 0;
-  // eslint-disable-next-line no-unused-vars
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
-
-  const updateEvent = (id, fields) => { // modified from Chloe Fugle lab 3
-    setEventList(
-      produce((draft) => {
-        draft[id] = { ...draft[id], ...fields };
-      }),
-    );
-  };
+  const maxAvail = 0;
 
   // create an empty calendar
   const timeList = {};
@@ -52,43 +32,25 @@ function Main(props) {
     return timeList;
   };
 
-  // add events to the blank calendar
+  // update current spaces on calendar based on user input
+  const updateEvent = (id, fields) => { // modified from Chloe Fugle lab 3
+    setEventList(
+      produce((draft) => {
+        draft[id] = { ...draft[id], ...fields };
+      }),
+    );
+  };
+
+  // map user input events to empty calendar
   const updateCalendar = () => {
-    Object.entries(eventInput).map(([id, details]) => {
-      updateEvent(id, details);
+    Object.entries(eventInput).map(([id, value]) => {
+      const time = `${String(value.day)}.${String(value.time)}.${String(value.block)}`;
+      const details = {
+        time: value.time, day: value.day, block: value.block, availableCount: value.count, available: value.available,
+      };
+      updateEvent(time, details);
       return (0);
     });
-  };
-
-  // style events based on number of people available
-  const calcMaxAvailable = () => { // calculate the maximum number of people available
-    const eventArray = Object.values(eventList);
-    const availArray = Object.values(eventArray);
-    Object.entries(availArray).map(([id, details]) => {
-      if (details.availableCount > maxAvail) {
-        maxAvail = details.availableCount;
-      }
-      return (maxAvail);
-    });
-  };
-  calcMaxAvailable();
-
-  const calcGradient = (numAvail) => { // calculate the color an event should be based on the number of people available
-    // code modified from code by desau at https://stackoverflow.com/questions/3080421/javascript-color-gradient
-
-    const percentFade = numAvail / maxAvail;
-
-    let diffRed = endColor.red - startColor.red;
-    let diffGreen = endColor.green - startColor.green;
-    let diffBlue = endColor.blue - startColor.blue;
-
-    diffRed = (diffRed * percentFade) + startColor.red;
-    diffGreen = (diffGreen * percentFade) + startColor.green;
-    diffBlue = (diffBlue * percentFade) + startColor.blue;
-
-    const newColor = { backgroundColor: `rgb(${String(diffRed)},${String(diffGreen)},${String(diffBlue)})` };
-    // console.log(newColor);
-    return (newColor);
   };
 
   // load the blank calendar, then load user events and style them
@@ -108,27 +70,13 @@ function Main(props) {
 
   useEffect(() => {
     loadCalendar(); // reloads calendar after events are populated
-    console.log(eventInput);
   }, [eventInput]);
 
   return (
     <div id="mainContainer">
       <div id="leftMain">
-        <p>proof that frontend and backend are linked, list of sample events from backend (created with postman): </p>
-        {Object.entries(eventInput).map(([id, details]) => {
-          return (
-            <div style={{
-              border: '3px solid red', display: 'flex', flexDirection: 'row', marginBottom: 5,
-            }}
-            >
-              <p style={{ margin: 3 }}>day: {details.day} </p>
-              <p style={{ margin: 3 }}>time: {details.time} </p>
-              <p style={{ margin: 3 }}>block: {details.block} </p>
-              <p style={{ margin: 3 }}>people available: {details.count} </p>
-            </div>
-          );
-        })}
         <div className="calendarGrid" id="mainCalendar">
+
           {Object.entries(eventList).map(([timeId, details]) => {
             return (
               <Event id={timeId}
@@ -137,7 +85,7 @@ function Main(props) {
                 block={details.block}
                 availableCount={details.availableCount}
                 available={details.available}
-                color={calcGradient(details.availableCount, maxAvail)}
+                color={color({ availableCount: details.availableCount, maxAvail, eventList })}
               />
             );
           })}
