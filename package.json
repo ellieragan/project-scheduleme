@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
+    "@googleapis/calendar": "^6.0.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@vitejs/plugin-react": "^4.0.0",
     "axios": "^1.3.6",

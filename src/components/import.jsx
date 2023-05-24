@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from 'react';
 // import authorize from '../services/cal-api';
 // import listEvents from '../services/cal-api';
+import { google } from 'googleapis';
 
 function Import() {
   const { gapi } = window;
-  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-  const API_KEY = process.env.REACT_APP_GOOGLE_KEY;
+  // const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+  // const API_KEY = process.env.REACT_APP_GOOGLE_KEY;
+  const CLIENT_ID = '963299361919-ub5vci0rong2aecr7celqfekcu6b9pjm.apps.googleusercontent.com';
+  const API_KEY = 'AIzaSyCHIXY-cMvDfMNyHv1k6rp2YKFNd153RHQ';
   const DISCOVERY_DOC = ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
   const SCOPES = 'https://www.googleapis.com/auth/calendar.events';
 
