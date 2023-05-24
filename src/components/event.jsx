@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Event(props) {
-  if (props.available.length !== 0) {
+  if (props.availableCount > 0) {
     return (
       <div
         className="event"
