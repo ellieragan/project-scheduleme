@@ -1,4 +1,4 @@
-import React, { ReactNode, SyntheticEvent } from 'react';
+import React from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 
 const config = {
@@ -16,9 +16,15 @@ function Import() {
   const handleClick = () => {
     apiCalendar.handleAuthClick();
   };
+  const handleListClick = () => {
+    apiCalendar.listUpcomingEvents(10).then(({ result }) => {
+      console.log(result.items);
+    });
+  };
   return (
     <div>
       <button type="button" onClick={handleClick}>Sign in</button>
+      <button type="button" onClick={handleListClick}>List all events</button>
     </div>
   );
 }
