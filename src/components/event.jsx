@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Event(props) {
-  if (props.available.length !== 0) {
+  if (props.availableCount > 0) {
     return (
       <div
         className="event"
@@ -11,12 +11,9 @@ function Event(props) {
         data-block={props.block}
         data-avail-count={props.availableCount}
         data-avail={props.available}
+        style={props.color}
       >
         <p className="tooltiptext">{props.available.join(', ')}</p>
-        {/* {Object.entries(props.available).map(([id, name]) => {
-          console.log(name);
-          return (<p className="tooltiptext">{name}</p>);
-        })} */}
       </div>
     );
   } else {
