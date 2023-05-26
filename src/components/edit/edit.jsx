@@ -153,6 +153,7 @@ function Edit(props) {
 
   // helper function to call api to update available events
   const updateData = async (details) => {
+    // commented out for now
     // console.log('details;', details);
     // const free = await dispatch(getEvent(details.id));
 
