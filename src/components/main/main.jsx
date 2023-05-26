@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { produce } from 'immer';
-import Event from './event';
-import { getAllEvents } from '../actions';
-import Buttons from './buttons';
-import color from '../helper/color';
+import Event from '../event/event';
+import { getAllEvents } from '../../actions';
+import Buttons from '../buttons/buttons';
+import color from '../../helper/color';
 import './main.scss';
 
 function Main(props) {
@@ -96,9 +96,6 @@ function Main(props) {
           </div>
         </div>
         <div id="rightMain">
-          <div id="availableGraph">
-            <p>avaliable graph</p>
-          </div>
           <div id="buttonsContainer">
             <Buttons />
           </div>

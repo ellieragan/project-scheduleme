@@ -8,6 +8,7 @@ import {
 import Modal from 'react-modal';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { EmailShareButton, EmailIcon } from 'react-share';
+import './buttons.scss';
 
 function Buttons(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
