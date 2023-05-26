@@ -30,7 +30,7 @@ const getEvent = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${ROOT_URL}/events/${id}${API_KEY}`);
-      // console.log('get event response: ', response);
+      console.log('get event response: ', response);
       dispatch({ type: ActionTypes.GET_EVENT, payload: response.data });
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error });
