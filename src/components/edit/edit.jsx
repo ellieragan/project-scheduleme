@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
 import { useDispatch } from 'react-redux';
 import Timeslot from './timeslot';
-import { getEvent, updateEvent } from '../actions/index';
+import { getEvent, updateEvent } from '../../actions/index';
 
 function Edit(props) {
   const dispatch = useDispatch();
