@@ -21,7 +21,7 @@ function Buttons(props) {
   };
 
   const onCloseModal = () => {
-    setModalIsOpen(false);
+    setModalIsOpen(false); // this set state is not working
   };
 
   const onCopyClick = () => {
@@ -40,26 +40,29 @@ function Buttons(props) {
 
   return (
     <div id="mainButtonContainer">
-      <div id="buttonIconContainer">
-        <button type="button" onClick={onImportButtonClick}>Import</button>
+      <div role="presentation" id="buttonIconContainer" onClick={onImportButtonClick}>
+        <button type="button">Import</button>
         <MdOutlineCloudUpload />
       </div>
-      <div id="buttonIconContainer">
-        <button type="button" onClick={onShareButtonClick}>Share</button>
+      <div role="presentation" id="buttonIconContainer" onClick={onShareButtonClick}>
+        <button type="button">Share</button>
         <MdLink />
         <Modal id="shareLinkModal" isOpen={modalIsOpen}>
+          <h5 className="invite-text">Invite others to schedule a meeting: </h5>
           <div id="shareLink">
-            <h4>{window.location.href}</h4>
+            <p className="link-text">{window.location.href}</p>
             <MdContentCopy onClick={onCopyClick} />
             <EmailShareButton url={shareUrl}>
               <EmailIcon size={32} round />
             </EmailShareButton>
           </div>
-          <button type="button" onClick={onCloseModal}>Close</button>
+          <div role="presentation" className="button-wrapper">
+            <button className="close-button" type="button" onClick={onCloseModal}>Close</button>
+          </div>
         </Modal>
       </div>
-      <div id="buttonIconContainer">
-        <button type="button" onClick={onScheduleButtonClick}>Schedule</button>
+      <div role="presentation" id="buttonIconContainer" onClick={onScheduleButtonClick}>
+        <button type="button">Schedule</button>
         <MdOutlineCalendarToday />
       </div>
 
