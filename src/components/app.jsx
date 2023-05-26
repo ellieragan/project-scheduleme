@@ -4,10 +4,10 @@ import React from 'react';
 import {
   BrowserRouter, Routes, Route, // useParams,
 } from 'react-router-dom';
-import Nav from './nav';
-import Main from './main';
-import Edit from './edit';
-import Import from './import';
+import Nav from './nav/nav';
+import Main from './main/main';
+import Edit from './edit/edit';
+import Import from './import/import';
 
 function App(props) {
   return (

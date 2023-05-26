@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 
 const config = {
