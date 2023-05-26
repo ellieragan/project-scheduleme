@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import {
@@ -10,6 +11,7 @@ import { EmailShareButton, EmailIcon } from 'react-share';
 
 function Buttons(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [icon, setIcon] = useState(MdContentCopy);
 
   const shareUrl = window.location.href;

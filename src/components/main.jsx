@@ -5,11 +5,13 @@ import Event from './event';
 import { getAllEvents } from '../actions';
 import Buttons from './buttons';
 import color from '../helper/color';
+import './main.scss';
 
 function Main(props) {
   const dispatch = useDispatch();
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
   const [eventInput, setEventInput] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
   const maxAvail = 0;
@@ -73,30 +75,33 @@ function Main(props) {
   }, [eventInput]);
 
   return (
-    <div id="mainContainer">
-      <div id="leftMain">
-        <div className="calendarGrid" id="mainCalendar">
+    <div>
+      <p className="title">Schedule @ Now</p>
+      <div id="mainContainer">
+        <div id="leftMain">
+          <div className="calendarGrid" id="mainCalendar">
 
-          {Object.entries(eventList).map(([timeId, details]) => {
-            return (
-              <Event id={timeId}
-                day={details.day}
-                time={details.time}
-                block={details.block}
-                availableCount={details.availableCount}
-                available={details.available}
-                color={color({ availableCount: details.availableCount, maxAvail, eventList })}
-              />
-            );
-          })}
+            {Object.entries(eventList).map(([timeId, details]) => {
+              return (
+                <Event id={timeId}
+                  day={details.day}
+                  time={details.time}
+                  block={details.block}
+                  availableCount={details.availableCount}
+                  available={details.available}
+                  color={color({ availableCount: details.availableCount, maxAvail, eventList })}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div id="rightMain">
-        <div id="availableGraph">
-          <p>avaliable graph</p>
-        </div>
-        <div id="buttonsContainer">
-          <Buttons />
+        <div id="rightMain">
+          <div id="availableGraph">
+            <p>avaliable graph</p>
+          </div>
+          <div id="buttonsContainer">
+            <Buttons />
+          </div>
         </div>
       </div>
     </div>
