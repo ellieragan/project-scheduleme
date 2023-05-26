@@ -1,4 +1,5 @@
 import React from 'react';
+import './event.scss';
 
 function Event(props) {
   if (props.availableCount > 0) {

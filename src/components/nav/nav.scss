@@ -1,0 +1,22 @@
+
+.links{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-left: 5vw;
+    margin-top: 1.5vw;
+}
+
+.links li{
+    list-style-type: none;
+    font-size: 1.5em;
+    margin: 0;
+    margin-right: 10vw;
+}
+
+li a {
+    text-decoration: none;
+    color: black;
+}

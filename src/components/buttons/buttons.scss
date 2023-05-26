@@ -1,0 +1,74 @@
+
+#mainButtonContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 8vh;
+  }
+  
+  #buttonIconContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 10vw;
+    height: 50px;
+    border-radius: 20px;
+    margin: 0;
+    height: fit-content;
+    padding: 8px;
+    background-color: #CAB8FF ;
+  }
+  
+  #buttonIconContainer button{
+    border: none;
+    background-color: transparent;
+  }
+  
+  #buttonIconContainer:hover, #icon:hover{
+    cursor: pointer;
+  }
+
+  #shareLinkModal{
+    // align in center of screen
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35vw;
+    height: 70vh;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+  }
+  
+  #shareLink{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .invite-text{
+    text-align: center;
+    font-size: 2em;
+  }
+
+  .link-text{
+    font-size: 1.5em;
+  }
+
+  .button-wrapper{
+    display: flex;
+    justify-content: center;
+  }
+
+  .close-button{
+    margin-top: 10vh;
+    width: 10vw;
+    height: 50px;
+    border-radius: 20px;
+    height: fit-content;
+    padding: 8px;
+    background-color: #CAB8FF ;
+  }

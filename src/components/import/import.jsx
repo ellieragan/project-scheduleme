@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import React from 'react';
 import ApiCalendar from 'react-google-calendar-api';
+import './import.scss';
 
 const config = {
   clientId: '963299361919-ub5vci0rong2aecr7celqfekcu6b9pjm.apps.googleusercontent.com',
@@ -51,9 +53,9 @@ function Import() {
   // const arrayDataItems = content.map((singleEvent) => <li>{singleEvent}</li>);
 
   return (
-    <div>
-      <button type="button" onClick={handleClick}>Sign in</button>
-      <button type="button" onClick={handleListClick}>List all events</button>
+    <div className="button-wrapper">
+      <button className="button1" type="button" onClick={handleClick}>Sign in</button>
+      <button className="button1" type="button" onClick={handleListClick}>List all events</button>
       {/* <ul>{arrayDataItems}</ul> */}
     </div>
   );
