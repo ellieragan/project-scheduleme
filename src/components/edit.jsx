@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
+import { useDispatch } from 'react-redux';
 import Timeslot from './timeslot';
+// import { fetchPost, updatePost, deletePost } from '../actions/index';
 
 function Edit(props) {
+  const dispatch = useDispatch();
   // props comes in with a startblck and an endblock
   // fake gcal events
   const [gcalInput, setGcalInput] = useState(
@@ -200,7 +203,15 @@ function Edit(props) {
     Object.entries(eventList).map(([timeId, details]) => {
       // console.log('timeid:', timeId);
       if (!eventList[timeId].busy) {
-        console.log('available:', timeId);
+        const fetch = async () => {
+          // const post = await dispatch(getEvent(timeId));
+        };
+        const update = async () => {
+          await dispatch(updateEvent(timeId, {
+            // availableCount: availableCount + 1,
+
+          }));
+        };
       }
       return (0);
     });
