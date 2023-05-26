@@ -1,0 +1,17 @@
+.button-wrapper{
+    margin: 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button1{
+    margin-top: 10vh;
+    width: 10vw;
+    height: 50px;
+    border-radius: 20px;
+    height: fit-content;
+    padding: 8px;
+    background-color: #CAB8FF ;
+}

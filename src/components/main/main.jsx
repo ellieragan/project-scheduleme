@@ -96,7 +96,8 @@ function Main(props) {
           </div>
         </div>
         <div id="rightMain">
-          <div id="buttonsContainer">
+          <p className="availableGraph">available graph placeholder</p>
+          <div>
             <Buttons />
           </div>
         </div>
