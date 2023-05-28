@@ -5,9 +5,11 @@ import {
   BrowserRouter, Routes, Route, // useParams,
 } from 'react-router-dom';
 import Nav from './nav/nav';
+// eslint-disable-next-line import/no-named-as-default
 import Main from './main/main';
 import Edit from './edit/edit';
 import Import from './import/import';
+import Create from './createCalendar/create';
 
 function App(props) {
   return (
@@ -15,7 +17,9 @@ function App(props) {
       <div>
         <Nav />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Create />} />
+          {/* <Route path="/" element={<Main />} /> */}
+          <Route path="/scheduler/:SchedulerId" element={<Main />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/import" element={<Import />} />
           <Route path="*" element={<FallBack />} />
