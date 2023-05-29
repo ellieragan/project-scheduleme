@@ -3,9 +3,14 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import EventReducer from './event-reducer';
+import UserReducer from './user-reducer';
+import SchedulerReducer from './scheduler-reducer';
 
 const rootReducer = combineReducers({
   event: EventReducer,
+  user: UserReducer,
+  scheduler: SchedulerReducer,
+
 });
 
 export default rootReducer;
