@@ -1,30 +1,31 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { produce } from 'immer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Timeslot from './timeslot';
-import { getEvent, updateEvent } from '../../actions/index';
+import { getAllEvents, getEvent, updateEvent } from '../../actions/index';
 
 function Edit(props) {
   const dispatch = useDispatch();
+  const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
 
   // fake gcal events
   const [gcalInput, setGcalInput] = useState(
     {
       '1.9.0': {
         id: '1.9.0',
-        starttime: '2023-05-26T09:00:00Z',
-        endtime: '2023-05-26T10:00:00Z',
-        busy: true,
-        gcal: true,
+        starttime: '2023-05-29T09:00:00Z',
+        endtime: '2023-05-29T10:00:00Z',
+        busy: false,
+        gcal: false,
         name: 'ellie',
       },
       '3.12.0': {
         id: '3.12.0',
-        starttime: '2023-05-28T12:00:00Z',
-        endtime: '2023-05-28T14:00:00Z',
-        busy: true,
-        gcal: true,
+        starttime: '2023-05-31T12:00:00Z',
+        endtime: '2023-05-31T14:00:00Z',
+        busy: false,
+        gcal: false,
         name: 'ellie',
       },
     },
@@ -95,29 +96,32 @@ function Edit(props) {
     });
   };
 
-  const timeList = {};
-  const createCalendar = (start, end) => {
-    for (let t = start; t < end + 1; t += 1) { // hours specified
-      for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
-        for (let d = 0; d < 7; d += 1) { // 7 days in week
-          const timeString = `${String(d)}.${String(t)}.${String(b)}`;
-          const timeItem = {
-            id: timeString,
-            day: d,
-            time: t,
-            block: b,
-            busy: false,
-            gcal: false,
-          };
-          timeList[timeString] = timeItem;
-        }
-      }
-    }
-    return timeList;
-  };
+  // const timeList = {};
+  // const createCalendar = (start, end) => {
+  //   for (let t = start; t < end + 1; t += 1) { // hours specified
+  //     for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
+  //       for (let d = 0; d < 7; d += 1) { // 7 days in week
+  //         const timeString = `${String(d)}.${String(t)}.${String(b)}`;
+  //         const timeItem = {
+  //           id: timeString,
+  //           day: d,
+  //           time: t,
+  //           block: b,
+  //           busy: false,
+  //           gcal: false,
+  //         };
+  //         timeList[timeString] = timeItem;
+  //       }
+  //     }
+  //   }
+  //   return timeList;
+  // };
 
-  const emptyEventList = createCalendar(times.start, times.end);
-  useEffect(() => { setEventList(emptyEventList); }, []);
+  // const emptyEventList = createCalendar(times.start, times.end);
+  useEffect(() => {
+    setEventList(allEvents);
+    console.log(allEvents);
+  }, [allEvents]);
 
   // add events to the blank calendar
   const updateCalendar = () => {
@@ -128,12 +132,12 @@ function Edit(props) {
   };
 
   async function loadCalendar() {
-    await setEventList(createCalendar(times.start, times.end));
     await updateCalendar();
     await getDay(gcalInput);
   }
 
   useEffect(() => {
+    dispatch(getAllEvents());
     loadCalendar();
   }, []);
 
@@ -154,15 +158,15 @@ function Edit(props) {
   // helper function to call api to update available events
   const updateData = async (details) => {
     // commented out for now
-    // console.log('details;', details);
-    // const free = await dispatch(getEvent(details.id));
+    console.log('details;', details);
+    const free = await dispatch(getEvent(details.id));
 
-    // if (free) {
-    //   await dispatch(updateEvent(details.id, {
-    //     count: free.details.count + 1,
-    //     available: [...free.details.available, 'ellie'],
-    //   }));
-    // }
+    if (free) {
+      await dispatch(updateEvent(details.id, {
+        count: free.details.count + 1,
+        available: [...free.details.available, 'ellie'],
+      }));
+    }
   };
 
   // calls helper function upon pressing "done"
@@ -176,11 +180,11 @@ function Edit(props) {
 
   const getTimeslotColor = (id, details, gcalIn) => {
     if (details.gcal) {
-      return 'blue';
+      return '#CAB8FF';
     } else if (details.busy) {
-      return 'white';
-    } else {
       return 'gray';
+    } else {
+      return 'white';
     }
   };
 

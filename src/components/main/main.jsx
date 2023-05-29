@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { produce } from 'immer';
 import Event from '../event/event';
-import { getAllEvents } from '../../actions';
+import { getAllEvents, createEvent } from '../../actions';
 import Buttons from '../buttons/buttons';
 import color from '../../helper/color';
 import './main.scss';
@@ -16,6 +16,16 @@ function Main(props) {
   const [eventList, setEventList] = useState({});
   const maxAvail = 0;
 
+  // helper async function to create events
+  const makeEvent = async (item) => {
+    // console.log('time item:', item);
+    const newevent = await dispatch(createEvent(item));
+    if (newevent) {
+      return newevent;
+    }
+    return 0;
+  };
+
   // create an empty calendar
   const timeList = {};
   const createCalendar = (start, end) => {
@@ -25,9 +35,10 @@ function Main(props) {
         for (let d = 0; d < 7; d += 1) { // 7 days in week
           const timeString = `${String(d)}.${String(t)}.${String(b)}`;
           const timeItem = ({
-            id: timeString, day: d, time: t, block: b, availableCount: 0, available: [],
+            key: timeString, day: d, time: t, block: b, count: 0, available: [],
           });
-          timeList[timeString] = timeItem;
+          const newEvent = makeEvent(timeItem);
+          timeList[timeString] = newEvent;
         }
       }
     }
@@ -48,7 +59,7 @@ function Main(props) {
     Object.entries(eventInput).map(([id, value]) => {
       const time = `${String(value.day)}.${String(value.time)}.${String(value.block)}`;
       const details = {
-        time: value.time, day: value.day, block: value.block, availableCount: value.count, available: value.available,
+        time: value.time, day: value.day, block: value.block, count: value.count, available: value.available,
       };
       updateEvent(time, details);
       return (0);
@@ -58,6 +69,7 @@ function Main(props) {
   // load the blank calendar, then load user events and style them
   async function loadCalendar() {
     await setEventList(createCalendar(times.start, times.end));
+    console.log(eventList);
     await updateCalendar();
     return (maxAvail);
   }
@@ -83,13 +95,14 @@ function Main(props) {
 
             {Object.entries(eventList).map(([timeId, details]) => {
               return (
-                <Event id={timeId}
+                <Event key={timeId}
+                  id={timeId}
                   day={details.day}
                   time={details.time}
                   block={details.block}
-                  availableCount={details.availableCount}
+                  count={details.count}
                   available={details.available}
-                  color={color({ availableCount: details.availableCount, maxAvail, eventList })}
+                  color={color({ count: details.count, maxAvail, eventList })}
                 />
               );
             })}
