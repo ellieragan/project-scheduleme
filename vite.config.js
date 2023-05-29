@@ -16,6 +16,7 @@ export default defineConfig({
       ],
     },
   },
+  // solution to vite build error from: https://github.com/vitejs/vite/issues/9703
   build: {
     commonjsOptions: { include: [] },
   },
