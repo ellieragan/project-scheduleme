@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { EmailShareButton, EmailIcon } from 'react-share';
 import './buttons.scss';
+import { NavLink } from 'react-router-dom';
 
 function Buttons(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -40,10 +41,10 @@ function Buttons(props) {
 
   return (
     <div id="mainButtonContainer">
-      <div role="presentation" id="buttonIconContainer" onClick={onImportButtonClick}>
-        <button type="button">Import</button>
+      <NavLink id="buttonIconContainer" to="/import">
+        Import
         <MdOutlineCloudUpload />
-      </div>
+      </NavLink>
       <div role="presentation" id="buttonIconContainer" onClick={onShareButtonClick}>
         <button type="button">Share</button>
         <MdLink />
