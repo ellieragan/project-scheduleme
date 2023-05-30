@@ -7,6 +7,7 @@ function Event(props) {
       <div
         className="event"
         id={props.id}
+        key={props.id}
         data-day={props.day}
         data-time={props.time}
         data-block={props.block}
@@ -22,6 +23,7 @@ function Event(props) {
       <div
         className="event"
         id={props.id}
+        key={props.id}
         data-day={props.day}
         data-time={props.time}
         data-block={props.block}
