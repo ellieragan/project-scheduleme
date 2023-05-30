@@ -24,12 +24,12 @@ function Create() {
     // just put in dummy data for now
     const newScheduler = {
       creator: eventCreator,
-      daysOfInterest: ['some days'],
       users: ['users'],
-      calendarID: '123',
+      events: [],
     };
 
     dispatch(createScheduler(newScheduler, navigate));
+    // maybe dispatch whatever creates the empty calendar, and update the events array of scheduler
   };
   return (
     <div>
