@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { createScheduler, createEvent, getAllEvents } from '../../actions';
+import { createScheduler, createEvent } from '../../actions';
 
 function Create() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [eventTitle, setEventTitle] = useState('');
   const [eventCreator, setEventCreator] = useState('');
-  const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
+  const times = { start: 9, end: 18 }; // default start and end time of the calendar
 
   const onEventNameChange = (event) => {
     setEventTitle(event.target.value);
@@ -20,7 +20,7 @@ function Create() {
 
   // helper async function to create events
   const makeEvent = async (item) => {
-    // console.log('time item:', item);
+    console.log('time item:', item);
     const newevent = await dispatch(createEvent(item));
     if (newevent) {
       return newevent;
@@ -36,6 +36,7 @@ function Create() {
       for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
         for (let d = 0; d < 7; d += 1) { // 7 days in week
           const timeString = `${String(d)}.${String(t)}.${String(b)}`;
+          console.log(timeString);
           const timeItem = ({
             key: timeString, day: d, time: t, block: b, count: 0, available: [],
           });
@@ -46,16 +47,6 @@ function Create() {
     }
     return timeList;
   };
-
-  // // load the blank calendar
-  // async function loadCalendar() {
-  //   await setEventList();
-  // }
-
-  // useEffect(() => {
-  //   dispatch(getAllEvents());
-  //   loadCalendar(); // initial load of the calendar
-  // }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -69,8 +60,8 @@ function Create() {
     };
 
     dispatch(createScheduler(newScheduler, navigate));
-    console.log('end');
   };
+
   return (
     <div>
       <form>
