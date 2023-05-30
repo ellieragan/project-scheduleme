@@ -55,7 +55,7 @@ function Create() {
     const newScheduler = {
       creator: eventCreator,
       users: ['users'],
-      events: [],
+      events: timeList,
     };
 
     dispatch(createScheduler(newScheduler, navigate));

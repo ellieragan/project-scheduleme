@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Event from '../event/event';
-import { getAllEvents, updateEvent } from '../../actions';
+import { getAllEvents, getScheduler, updateEvent } from '../../actions';
 import Buttons from '../buttons/buttons';
 import color from '../../helper/color';
 import './main.scss';
 
 function Main(props) {
   const dispatch = useDispatch();
-  const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
-  console.log(allEvents);
+  const allEvents = useSelector((reduxState) => { return reduxState.scheduler.current.events; });
   const maxAvail = 0;
 
   // map user input events to empty calendar
@@ -32,7 +31,7 @@ function Main(props) {
   }
 
   useEffect(() => {
-    dispatch(getAllEvents());
+    dispatch(getScheduler);
     populateCalendar(); // initial load of the calendar
     console.log('populateCalendar');
   }, []);
