@@ -10,8 +10,7 @@ function Nav(props) {
       <nav>
         <ul className="links">
           <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/edit">Edit</NavLink></li>
-          <li><NavLink to="/import">Import</NavLink></li>
+          <li><NavLink to="/edit">Edit</NavLink></li> {/* leaving edit link for now for easy access, can remove later once flow added */}
         </ul>
       </nav>
     </div>
