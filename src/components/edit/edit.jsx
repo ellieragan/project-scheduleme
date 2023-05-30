@@ -12,16 +12,16 @@ function Edit(props) {
   // fake gcal events
   const [gcalInput, setGcalInput] = useState(
     {
-      '1.9.0': {
-        id: '1.9.0',
+      event1: {
+        id: '',
         starttime: '2023-05-29T09:00:00Z',
         endtime: '2023-05-29T10:00:00Z',
         busy: false,
         gcal: false,
         name: 'ellie',
       },
-      '3.12.0': {
-        id: '3.12.0',
+      event2: {
+        id: '',
         starttime: '2023-05-31T12:00:00Z',
         endtime: '2023-05-31T14:00:00Z',
         busy: false,
@@ -35,11 +35,12 @@ function Edit(props) {
   const [eventList, setEventList] = useState({}); // list of all events
 
   const produceEvent = (id, fields) => { // modified from Chloe Fugle lab 3
-    setEventList(
-      produce((draft) => {
-        draft[id] = { ...draft[id], ...fields };
-      }),
-    );
+    // setEventList(
+    //   produce((draft) => {
+    //     draft[id] = { ...draft[id], ...fields };
+    //   }),
+    // );
+    setEventList(allEvents);
   };
 
   // updates events to reflect the entirety of gcal blocks, rather than just the start
@@ -121,6 +122,7 @@ function Edit(props) {
   useEffect(() => {
     setEventList(allEvents);
     console.log(allEvents);
+    console.log('gcal:', gcalInput);
   }, [allEvents]);
 
   // add events to the blank calendar
