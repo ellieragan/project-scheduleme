@@ -4,10 +4,12 @@ import { produce } from 'immer';
 import { useDispatch, useSelector } from 'react-redux';
 import Timeslot from './timeslot';
 import { getAllEvents, getEvent, updateEvent } from '../../actions/index';
+import Import from '../import/import';
 
 function Edit(props) {
   const dispatch = useDispatch();
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
+  // const [gcalInput, setGcalInput] = useState();
 
   // fake gcal events
   const [gcalInput, setGcalInput] = useState(
@@ -31,6 +33,12 @@ function Edit(props) {
     },
   );
 
+  // const [gcalInput, setGcalInput] = useState(props.gcalEvents);
+  // console.log('gcal in:', gcalInput);
+
+  useEffect(() => {
+    console.log(`gcal in: ${JSON.stringify(gcalInput)}`);
+  }, [gcalInput]);
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({}); // list of all events
 
