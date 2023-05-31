@@ -10,27 +10,30 @@ function Edit(props) {
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
 
   // fake gcal events
-  const [gcalInput, setGcalInput] = useState(
-    {
-      event1: {
-        id: '',
-        starttime: '2023-05-29T09:00:00Z',
-        endtime: '2023-05-29T10:00:00Z',
-        busy: false,
-        gcal: false,
-        name: 'ellie',
-      },
-      event2: {
-        id: '',
-        starttime: '2023-05-31T12:00:00Z',
-        endtime: '2023-05-31T14:00:00Z',
-        busy: false,
-        gcal: false,
-        name: 'ellie',
-      },
-    },
-  );
+  // const [gcalInput, setGcalInput] = useState(
+  //   {
+  //     '1.9.0': {
+  //       id: '1.9.0',
+  //       starttime: '2023-05-26T09:00:00Z',
+  //       endtime: '2023-05-26T10:00:00Z',
+  //       busy: true,
+  //       gcal: true,
+  //       name: 'ellie',
+  //     },
+  //     '3.12.0': {
+  //       id: '3.12.0',
+  //       starttime: '2023-05-28T12:00:00Z',
+  //       endtime: '2023-05-28T14:00:00Z',
+  //       busy: true,
+  //       gcal: true,
+  //       name: 'ellie',
+  //     },
+  //   },
+  // );
 
+  const [gcalInput, setGcalInput] = useState(props.gcalEvents);
+  // console.log(`all events: ${gcalInput}`);
+  console.log(`all events: ${JSON.stringify(gcalInput)}`);
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({}); // list of all events
 

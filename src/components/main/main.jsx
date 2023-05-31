@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { produce } from 'immer';
 import Event from '../event/event';
 import { getAllEvents, getScheduler, updateEvent } from '../../actions';
 import Buttons from '../buttons/buttons';

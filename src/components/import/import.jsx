@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 import './import.scss';
+import { NavLink } from 'react-router-dom';
+import Edit from '../edit/edit';
 
 const config = {
   clientId: '963299361919-ub5vci0rong2aecr7celqfekcu6b9pjm.apps.googleusercontent.com',
@@ -16,6 +18,7 @@ const apiCalendar = new ApiCalendar(config);
 
 function Import() {
   const [gcalEvents, setGcalEvents] = useState([]);
+  const [signedIn, setSignedIn] = useState(false);
 
   const addEvent = (newEvent) => {
     setGcalEvents((prevArray) => [...prevArray, newEvent]);
@@ -53,14 +56,28 @@ function Import() {
         };
         addEvent(newEvent);
       });
+      setSignedIn(true);
+      console.log(`signed in status: ${signedIn}`);
     });
   };
 
+  const renderFunction = () => {
+    if (!signedIn) {
+      return (
+        <div className="button-wrapper">
+          <button className="button1" type="button" onClick={handleClick}>Sign in</button>
+          <button className="button1" type="button" onClick={handleListClick}>List all events</button>
+        </div>
+      );
+    } else {
+      return (
+        <Edit gcalEvents={gcalEvents} />
+      );
+    }
+  };
+
   return (
-    <div className="button-wrapper">
-      <button className="button1" type="button" onClick={handleClick}>Sign in</button>
-      <button className="button1" type="button" onClick={handleListClick}>List all events</button>
-    </div>
+    <div>{renderFunction()}</div>
   );
 }
 
