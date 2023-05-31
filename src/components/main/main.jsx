@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Event from '../event/event';
 import { getAllEvents, getScheduler, updateEvent } from '../../actions';
 import Buttons from '../buttons/buttons';
+import Available from '../available/availableGraph';
 import color from '../../helper/color';
 import './main.scss';
 
 function Main(props) {
   const dispatch = useDispatch();
   const allEvents = useSelector((reduxState) => { return reduxState.scheduler.current.events; });
-  const maxAvail = 0;
+  let maxAvail = 0;
 
   // map user input events to empty calendar
   const updateCalendar = () => {
@@ -18,7 +19,6 @@ function Main(props) {
       const details = {
         time: value.time, day: value.day, block: value.block, count: value.count, available: value.available,
       };
-      // console.log(details);
       updateEvent(details, id);
       return (0);
     });
@@ -30,10 +30,23 @@ function Main(props) {
     return (maxAvail);
   }
 
+  // style events based on number of people available
+  const calcMaxAvailable = () => { // calculate the maximum number of people available
+    const eventArray = Object.values(allEvents); // not sure if this is going to work because the structure has changed
+    const availArray = Object.values(eventArray); // but can fix later if it breaks @maria
+    Object.entries(availArray).map(([id, details]) => {
+      if (details.availableCount > maxAvail) {
+        maxAvail = details.availableCount;
+      }
+      return (0);
+    });
+  };
+
+  // load the main page
   useEffect(() => {
     dispatch(getScheduler);
     populateCalendar(); // initial load of the calendar
-    console.log('populateCalendar');
+    calcMaxAvailable(); // calculate the maximum number of people available for color gradient
   }, []);
 
   return (
@@ -52,14 +65,14 @@ function Main(props) {
                   block={details.block}
                   count={details.count}
                   available={details.available}
-                  color={color({ count: details.count, maxAvail, eventList: allEvents })}
+                  color={color({ count: details.count, maxAvail })}
                 />
               );
             })}
           </div>
         </div>
         <div id="rightMain">
-          <p className="availableGraph">available graph placeholder</p>
+          <Available />
           <div>
             <Buttons />
           </div>
