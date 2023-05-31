@@ -1,7 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 import './import.scss';
+import { NavLink } from 'react-router-dom';
+// import Edit from '../edit/edit';
 
 const config = {
   clientId: '963299361919-ub5vci0rong2aecr7celqfekcu6b9pjm.apps.googleusercontent.com',
@@ -15,13 +17,26 @@ const config = {
 const apiCalendar = new ApiCalendar(config);
 
 function Import() {
-  const content = [];
-  const eventTitles = [];
-  const startTimes = [];
-  const endTimes = [];
+  const [gcalEvents, setGcalEvents] = useState([]);
+  const [signedIn, setSignedIn] = useState(false);
+
+  const addEvent = (newEvent) => {
+    setGcalEvents((prevArray) => [...prevArray, newEvent]);
+  };
+  useEffect(() => {
+    console.log(`all events: ${JSON.stringify(gcalEvents)}`);
+  }, [gcalEvents]);
+
   const handleClick = () => {
     apiCalendar.handleAuthClick();
+    // const interval = setInterval(() => {
+    //   if (apiCalendar.tokenClient !== null) {
+    //     clearInterval(interval);
+    //     handleListClick();
+    //   }
+    // }, 1000); // Check every second
   };
+
   const handleListClick = () => {
     apiCalendar.listEvents({
       timeMin: '2023-05-24T10:00:00-07:00',
@@ -31,33 +46,38 @@ function Import() {
       orderBy: 'updated',
     }).then(({ result }) => {
       console.log(result.items);
-      // console.log(result.items[0].start.dateTime);
-      // setContent(result.items.start);
       result.items.forEach((event) => {
-        // Extract the title, start time, and end time for each event
-
-        const title = event.summary;
-        const startTime = event.start.dateTime;
-        const endTime = event.end.dateTime;
-        const fullEvent = `${title}, Starts: ${startTime}, Ends: ${endTime}`;
-
-        // Save the extracted data to the respective variables
-        eventTitles.push(title);
-        startTimes.push(startTime);
-        endTimes.push(endTime);
-        console.log(fullEvent);
-        content.push(fullEvent);
+        const newEvent = {
+          starttime: event.start.dateTime,
+          endtime: event.end.dateTime,
+          busy: true,
+          gcal: true,
+          name: event.creator.email,
+        };
+        addEvent(newEvent);
       });
+      setSignedIn(true);
+      console.log(`signed in status: ${signedIn}`);
     });
   };
-  // const arrayDataItems = content.map((singleEvent) => <li>{singleEvent}</li>);
+
+  const renderFunction = () => {
+    if (!signedIn) {
+      return (
+        <div className="button-wrapper">
+          <button className="button1" type="button" onClick={handleClick}>Sign in</button>
+          <button className="button1" type="button" onClick={handleListClick}>List all events</button>
+        </div>
+      );
+    } else {
+      return (
+        <Edit gcalEvents={gcalEvents} />
+      );
+    }
+  };
 
   return (
-    <div className="button-wrapper">
-      <button className="button1" type="button" onClick={handleClick}>Sign in</button>
-      <button className="button1" type="button" onClick={handleListClick}>List all events</button>
-      {/* <ul>{arrayDataItems}</ul> */}
-    </div>
+    <div>{renderFunction()}</div>
   );
 }
 

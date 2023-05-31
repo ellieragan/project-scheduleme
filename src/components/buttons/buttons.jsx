@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { EmailShareButton, EmailIcon } from 'react-share';
 import './buttons.scss';
+import { NavLink } from 'react-router-dom';
 
 function Buttons(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -21,7 +22,12 @@ function Buttons(props) {
   };
 
   const onCloseModal = () => {
-    setModalIsOpen(false); // this set state is not working
+    // check if modal is open
+    console.log(modalIsOpen);
+    console.log('close');
+    console.log('closing moddal');
+    setModalIsOpen(false);
+    console.log(modalIsOpen);
   };
 
   const onCopyClick = () => {
@@ -40,10 +46,10 @@ function Buttons(props) {
 
   return (
     <div id="mainButtonContainer">
-      <div role="presentation" id="buttonIconContainer" onClick={onImportButtonClick}>
-        <button type="button">Import</button>
+      <NavLink id="buttonIconContainer" to="/import">
+        Import
         <MdOutlineCloudUpload />
-      </div>
+      </NavLink>
       <div role="presentation" id="buttonIconContainer" onClick={onShareButtonClick}>
         <button type="button">Share</button>
         <MdLink />
@@ -52,8 +58,10 @@ function Buttons(props) {
           <div id="shareLink">
             <p className="link-text">{window.location.href}</p>
             <MdContentCopy onClick={onCopyClick} />
+          </div>
+          <div id="emailShareButton">
             <EmailShareButton url={shareUrl}>
-              <EmailIcon size={32} round />
+              Send link as email <EmailIcon size={28} round />
             </EmailShareButton>
           </div>
           <div role="presentation" className="button-wrapper">
