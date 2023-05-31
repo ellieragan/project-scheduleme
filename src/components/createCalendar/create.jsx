@@ -30,8 +30,9 @@ function Create() {
   };
 
   // create an empty calendar
-  const timeList = [];
-  const createCalendar = (start, end) => {
+
+  const createCalendar = async (start, end) => {
+    const timeList = [];
     // for loop order is kind of funky because it is easier to change it in the DOM than manipulate it with CSS grid
     for (let t = start; t < end + 1; t += 1) { // hours specified
       for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
@@ -40,8 +41,9 @@ function Create() {
           const timeItem = ({
             key: timeString, day: d, time: t, block: b, count: 0, available: [],
           });
-          const newEvent = makeEvent(timeItem);
-          timeList.push(newEvent);
+          makeEvent(timeItem).then((newEvent) => {
+            timeList.push(newEvent);
+          });
         }
       }
     }
@@ -52,8 +54,12 @@ function Create() {
     setBlankEvents(createCalendar(times.start, times.end));
   }, []);
 
+  useEffect(() => {
+    console.log('blankevents: ', blankEvents);
+  }, [blankEvents]);
+
   const onSubmit = async (event) => {
-    console.log('blankevents', typeof (blankEvents));
+    console.log('blankevents', blankEvents);
     event.preventDefault();
     console.log(eventTitle);
     console.log(eventCreator);
