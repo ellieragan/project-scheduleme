@@ -33,7 +33,7 @@ function Edit(props) {
 
   const [gcalInput, setGcalInput] = useState(props.gcalEvents);
   // console.log(`all events: ${gcalInput}`);
-  console.log(`all events: ${JSON.stringify(gcalInput)}`);
+  console.log(`all events 1: ${JSON.stringify(gcalInput)}`);
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({}); // list of all events
 
@@ -123,7 +123,7 @@ function Edit(props) {
   // const emptyEventList = createCalendar(times.start, times.end);
   useEffect(() => {
     setEventList(allEvents);
-    console.log(allEvents);
+    console.log('allevents 2,', allEvents);
   }, [allEvents]);
 
   // add events to the blank calendar

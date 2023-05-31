@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 import './import.scss';
 import { NavLink } from 'react-router-dom';
-// import Edit from '../edit/edit';
+import Edit from '../edit/edit';
 
 const config = {
   clientId: '963299361919-ub5vci0rong2aecr7celqfekcu6b9pjm.apps.googleusercontent.com',
