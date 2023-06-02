@@ -29,6 +29,7 @@ body {
     color: white;
     font-size: 13px;
     outline: none;
+    letter-spacing: .2px;
 }
 .submit-container {
     display: flex;
@@ -56,7 +57,12 @@ body {
     border-radius: 10px;
     margin-left: 10px;
     height: 15px;
-    margin-top: 5px;
+    margin-top: 3px;
+    color: white;
+    padding: 3px;
+    padding-left: 6px;
+    letter-spacing: .5px;
+    font-size: 12px;
 }
 .main-body {
     display: flex;
