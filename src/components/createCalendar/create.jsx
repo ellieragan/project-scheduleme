@@ -22,7 +22,7 @@ function Create() {
   // helper async function to create events
   const makeEvent = async (item) => {
     // console.log('time item:', item);
-    const newevent = await dispatch(createEvent(item));
+    const newevent = await createEvent(item);
     if (newevent) {
       return newevent;
     }
@@ -41,9 +41,8 @@ function Create() {
           const timeItem = ({
             key: timeString, day: d, time: t, block: b, count: 0, available: [],
           });
-          makeEvent(timeItem).then((newEvent) => {
-            timeList.push(newEvent);
-          });
+          const newEvent = makeEvent(timeItem);
+          timeList.push(newEvent);
         }
       }
     }

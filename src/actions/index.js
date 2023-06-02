@@ -45,15 +45,17 @@ const getEvent = (id) => {
   };
 };
 
-const createEvent = (event) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.post(`${ROOT_URL}/events/${API_KEY}`, event);
-      dispatch({ type: ActionTypes.CREATE_EVENT, payload: response.data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
+const createEvent = async (event) => {
+  // return async (dispatch) => {
+  try {
+    const response = await axios.post(`${ROOT_URL}/events/${API_KEY}`, event);
+    return response;
+    // dispatch({ type: ActionTypes.CREATE_EVENT, payload: response.data });
+  } catch (error) {
+    // dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
+    return 'error';
+  }
+  // };
 };
 
 const updateEvent = (eventInfo, id) => {
