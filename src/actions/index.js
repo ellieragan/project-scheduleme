@@ -118,7 +118,7 @@ const getAllUsers = () => {
   };
 };
 
-const createScheduler = (scheduler, navigate) => {
+const createScheduler = (scheduler, navigate) => { // scheduler passed only has creator and title
   return async (dispatch) => {
     try {
       const response = await axios.post(`${ROOT_URL}/schedulers/${API_KEY}`, scheduler);

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { produce } from 'immer';
 import Event from '../event/event';
-import { getAllEvents, createEvent } from '../../actions';
+import { getAllEvents } from '../../actions';
 import Buttons from '../buttons/buttons';
 import color from '../../helper/color';
 import './main.scss';
