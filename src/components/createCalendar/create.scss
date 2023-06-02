@@ -1,0 +1,26 @@
+#calendarForm {
+  justify-content: space-between;
+  align-content: center;
+  padding: 10px;
+  margin: 10px;
+}
+
+#EventName #CreatorName{
+  padding: 10px;
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+.createContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.createCalendar{
+  height: 200px;
+  width: 40%;
+  background-color: rgb(240, 240, 240);
+}
+

@@ -11,12 +11,13 @@ import './main.scss';
 
 function Main(props) {
   const dispatch = useDispatch();
+  const params = useParams();
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
   const [eventInput, setEventInput] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
-  const maxAvail = 0;
+  const maxAvail = 8;
 
   // helper async function to create events
   const makeEvent = async (item) => {
@@ -41,6 +42,7 @@ function Main(props) {
           });
           const newEvent = makeEvent(timeItem);
           timeList[timeString] = newEvent;
+          // timeList[timeString] = timeItem;
         }
       }
     }
@@ -71,31 +73,50 @@ function Main(props) {
   // load the blank calendar, then load user events and style them
   async function loadCalendar() {
     await setEventList(createCalendar(times.start, times.end));
-    console.log(eventList);
+    console.log('event params: ', params.list);
+    await setEventInput(params.list);
     await updateCalendar();
     return (maxAvail);
   }
-  useEffect(() => {
-    dispatch(getAllEvents());
-    loadCalendar(); // initial load of the calendar
-  }, []);
+
+  console.log('event list:', eventList);
+
+  // style events based on number of people available
+  // const calcMaxAvailable = () => { // calculate the maximum number of people available
+  //   const eventArray = Object.values(eventList);
+  //   const availArray = Object.values(eventArray);
+  //   Object.entries(availArray).map(([id, details]) => {
+  //     if (details.availableCount > maxAvail) {
+  //       maxAvail = details.availableCount;
+  //     }
+  //     return (maxAvail);
+  //   });
+  // };
 
   useEffect(() => {
-    setEventInput(allEvents); // once events are gotten from useSelector, set state
-  }, [allEvents]);
+    // dispatch(getAllEvents());
+    loadCalendar(); // initial load of the calendar
+    console.log('home');
+    // calcMaxAvailable();
+  }, []);
+
+  // useEffect(() => {
+  //   setEventInput(allEvents); // once events are gotten from useSelector, set state
+  // }, [allEvents]);
 
   useEffect(() => {
     loadCalendar(); // reloads calendar after events are populated
   }, [eventInput]);
-
+  console.log('eventinput', eventInput);
   return (
     <div>
       <p className="title">Schedule @ Now</p>
       <div id="mainContainer">
         <div id="leftMain">
           <div className="calendarGrid" id="mainCalendar">
-
             {Object.entries(eventList).map(([timeId, details]) => {
+              console.log(timeId, details);
+              console.log(color({ count: details.count, maxAvail }));
               return (
                 <Event key={timeId}
                   id={timeId}
@@ -104,7 +125,7 @@ function Main(props) {
                   block={details.block}
                   count={details.count}
                   available={details.available}
-                  color={color({ count: details.count, maxAvail, eventList })}
+                  color={color({ count: details.count, maxAvail })}
                 />
               );
             })}

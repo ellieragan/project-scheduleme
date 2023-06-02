@@ -1,5 +1,5 @@
 .button-wrapper{
-    margin: 5vw;
+    margin-top: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,10 +8,37 @@
 
 .button1{
     margin-top: 10vh;
-    width: 10vw;
+    width: 15vw;
     height: 50px;
     border-radius: 20px;
-    height: fit-content;
+    // height: fit-content;
     padding: 8px;
-    background-color: #CAB8FF ;
+    background-color: #34A853 ;
+    color: white;
+    font-size: 18px;
 }
+.button2{
+    margin-top: 10vh;
+    width: 15vw;
+    height: 50px;
+    border-radius: 20px;
+    // height: fit-content;
+    padding: 8px;
+    background-color: #FBBC04 ;
+    color: white;
+    font-size: 18px;
+}
+.sign-in1 {
+    color: #34A853;
+    font-size: 30px;
+}
+.sign-in2 {
+    color: #FBBC04;
+    font-size: 30px;
+}
+
+
+
+
+
+

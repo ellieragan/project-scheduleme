@@ -19,7 +19,7 @@ function App(props) {
         <Routes>
           <Route path="/" element={<Create />} />
           {/* <Route path="/" element={<Main />} /> */}
-          <Route path="/scheduler/:SchedulerId" element={<Main />} />
+          <Route path="/scheduler/:SchedulerId/:list" element={<Main />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/import" element={<Import />} />
           <Route path="*" element={<FallBack />} />
