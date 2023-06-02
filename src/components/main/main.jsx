@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Event from '../event/event';
-import { getAllEvents, getScheduler, updateEvent } from '../../actions';
+import { getScheduler, updateEvent } from '../../actions';
 import Buttons from '../buttons/buttons';
 import Available from '../available/availableGraph';
 import color from '../../helper/color';

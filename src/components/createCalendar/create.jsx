@@ -21,16 +21,13 @@ function Create() {
   // helper async function to create events
   const makeEvent = async (item) => {
     console.log('time item:', item);
-    const newevent = await dispatch(createEvent(item));
-    if (newevent) {
-      return newevent;
-    }
-    return 0;
+    return dispatch(createEvent(item));
   };
 
   // create an empty calendar
   const timeList = {};
-  const createCalendar = (start, end) => {
+  const createCalendar = async (start, end) => {
+    const promises = [];
     // for loop order is kind of funky because it is easier to change it in the DOM than manipulate it with CSS grid
     for (let t = start; t < end + 1; t += 1) { // hours specified
       for (let b = 0; b < 4; b += 1) { // 15 minute increments (0 is on the dot, 1 is 15m, 2 is 30m, 3 is 45m)
@@ -40,22 +37,21 @@ function Create() {
           const timeItem = ({
             key: timeString, day: d, time: t, block: b, count: 0, available: [],
           });
-          const newEvent = makeEvent(timeItem);
-          timeList[timeString] = newEvent;
+          promises.push(makeEvent(timeItem));
         }
       }
     }
-    return timeList;
+    return Promise.all(promises);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    createCalendar(times.start, times.end);
+    await createCalendar(times.start, times.end);
     // just put in dummy data for now
     const newScheduler = {
       creator: eventCreator,
       users: ['users'],
-      events: timeList,
+      events: /* if you had useSelector for reduxState.events.all*/
     };
 
     dispatch(createScheduler(newScheduler, navigate));
