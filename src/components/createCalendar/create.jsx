@@ -51,7 +51,7 @@ function Create() {
     const newScheduler = {
       creator: eventCreator,
       users: ['users'],
-      events: /* if you had useSelector for reduxState.events.all*/
+      events: [],
     };
 
     dispatch(createScheduler(newScheduler, navigate));
