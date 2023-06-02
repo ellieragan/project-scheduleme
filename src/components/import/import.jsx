@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 import './import.scss';
-import { NavLink } from 'react-router-dom';
 import Edit from '../edit/edit';
 
 const config = {

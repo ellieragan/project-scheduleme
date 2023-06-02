@@ -28,7 +28,7 @@ const getAllEvents = () => {
       // console.log('all event response: ', response);
       dispatch({ type: ActionTypes.GET_ALL_EVENTS, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -40,21 +40,22 @@ const getEvent = (id) => {
       console.log('get event response: ', response);
       dispatch({ type: ActionTypes.GET_EVENT, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
 
-const createEvent = (event) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.post(`${ROOT_URL}/events/${API_KEY}`, event);
-      // console.log('create event response: ', response);
-      dispatch({ type: ActionTypes.CREATE_EVENT, payload: response.data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
-    }
-  };
+const createEvent = async (event) => {
+  // return async (dispatch) => {
+  try {
+    const response = await axios.post(`${ROOT_URL}/events/${API_KEY}`, event);
+    return response;
+    // dispatch({ type: ActionTypes.CREATE_EVENT, payload: response.data });
+  } catch (error) {
+    // dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
+    return 'error';
+  }
+  // };
 };
 
 const updateEvent = (eventInfo, id) => {
@@ -64,7 +65,7 @@ const updateEvent = (eventInfo, id) => {
       // console.log('update event response: ', response);
       dispatch({ type: ActionTypes.UPDATE_EVENT, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -76,7 +77,7 @@ const deleteEvent = (id) => {
       // console.log('delete event response: ', response);
       dispatch({ type: ActionTypes.DELETE_EVENT, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -117,7 +118,7 @@ const getAllUsers = () => {
   };
 };
 
-const createScheduler = (scheduler, navigate) => {
+const createScheduler = (scheduler, navigate) => { // scheduler passed only has creator and title
   return async (dispatch) => {
     try {
       const response = await axios.post(`${ROOT_URL}/schedulers/${API_KEY}`, scheduler);

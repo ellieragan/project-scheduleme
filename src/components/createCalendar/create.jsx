@@ -19,20 +19,22 @@ function Create() {
     setEventCreator(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     console.log(eventTitle);
     console.log(eventCreator);
     // just put in dummy data for now
     const newScheduler = {
+      // part of refactor: scheduler fields here only have creator and title, events are populated in the backend
       creator: eventCreator,
-      users: ['users'],
-      events: [],
+      title: eventTitle,
     };
 
+    console.log('new scheduler: ', newScheduler);
+
     dispatch(createScheduler(newScheduler, navigate));
-    // maybe dispatch whatever creates the empty calendar, and update the events array of scheduler
   };
+
   return (
     <div className="create-page">
       <div className="logo">ScheduleMe</div>
