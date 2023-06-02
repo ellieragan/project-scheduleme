@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createScheduler } from '../../actions';
+import laptop from './laptop.png';
+import './create.scss';
 
 function Create() {
   const dispatch = useDispatch();
@@ -34,18 +36,25 @@ function Create() {
   };
 
   return (
-    <div>
-      <form>
-        <label htmlFor="EventName"> <br />
-          Event Name:
-          <input type="text" id="EventName" name="EventName" onChange={onEventNameChange} /> <br />
-        </label>
-        <label htmlFor="Creator"><br />
-          Creator:
-          <input type="text" id="Creator" name="Creator" onChange={onEventCreatorChange} /> <br />
-        </label>
-        <button type="submit" onClick={onSubmit}>Create Event</button>
-      </form>
+    <div className="create-page">
+      <div className="logo">ScheduleMe</div>
+      <div className="subtitle">WHEN2MEET FOR THE 21ST CENTURY</div>
+      <div className="main-body">
+        <div className="left-body">
+          <div className="input1">
+            <div className="input-title">Event Name: </div>
+            <input type="text" className="input-box" name="EventName" onChange={onEventNameChange} />
+          </div>
+          <div className="input1">
+            <div className="input-title">Creator: </div>
+            <input type="text" className="input-box" name="Creator" onChange={onEventCreatorChange} />
+          </div>
+          <div className="submit-container">
+            <button className="submit-btn" type="submit" onClick={onSubmit}>schedule</button>
+          </div>
+        </div>
+        <img className="laptop-img" alt="" src={laptop} />
+      </div>
     </div>
   );
 }
