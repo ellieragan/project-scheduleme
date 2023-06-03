@@ -1,5 +1,9 @@
 function color(props) {
+<<<<<<< HEAD
   const availableCount = Math.floor(Math.random() * 8);
+=======
+  const { availableCount } = props;
+>>>>>>> aba34674adbb1c24211f715ed3bbd403a4d8ca33
   const { maxAvail } = props;
 
   const startColor = {

@@ -88,7 +88,7 @@ const createUser = (user) => {
       // console.log('create user response: ', response);
       dispatch({ type: ActionTypes.CREATE_USER, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -100,7 +100,7 @@ const getUserEvents = (id) => {
       // console.log('get user events response: ', response);
       dispatch({ type: ActionTypes.GET_USER_EVENTS, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -112,20 +112,24 @@ const getAllUsers = () => {
       // console.log('get all users response: ', response);
       dispatch({ type: ActionTypes.GET_ALL_USERS, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
 
 const createScheduler = (scheduler, navigate) => {
+  console.log('create scheduler call');
+  console.log(scheduler);
   return async (dispatch) => {
     try {
       const response = await axios.post(`${ROOT_URL}/schedulers/${API_KEY}`, scheduler);
       // console.log('create scheduler response: ', response);
+
       dispatch({ type: ActionTypes.CREATE_SCHEDULER, payload: response.data });
       navigate(`/scheduler/${response.data.id}`);
+      // navigate('/edit');
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -137,7 +141,7 @@ const updateScheduler = (schedulerInfo, schedulerId) => {
       // console.log('update scheduler response: ', response);
       dispatch({ type: ActionTypes.UPDATE_SCHEDULER, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
@@ -161,7 +165,7 @@ const getSchedulers = () => {
       // console.log('get schedulers response: ', response);
       dispatch({ type: ActionTypes.GET_SCHEDULERS, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
