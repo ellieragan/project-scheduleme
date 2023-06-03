@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { produce } from 'immer';
 import Event from '../event/event';
-import { getScheduler, updateEvent } from '../../actions';
+import { getAllEvents, getScheduler } from '../../actions';
 import Buttons from '../buttons/buttons';
 import Available from '../available/availableGraph';
 import color from '../../helper/color';
@@ -11,8 +11,21 @@ import './main.scss';
 
 function Main(props) {
   const dispatch = useDispatch();
-  const allEvents = useSelector((reduxState) => { return reduxState.scheduler.current.events; });
+  const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
+  const [eventInput, setEventInput] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
+  const [eventList, setEventList] = useState({});
   let maxAvail = 0;
+
+  // update current spaces on calendar based on user input
+  const updateEvent = (id, fields) => { // modified from Chloe Fugle lab 3
+    setEventList(
+      produce((draft) => {
+        draft[id] = { ...draft[id], ...fields };
+      }),
+    );
+  };
 
   // map user input events to empty calendar
   const updateCalendar = () => {
@@ -27,7 +40,9 @@ function Main(props) {
   };
 
   // load the blank calendar, then load user events and style them
-  async function populateCalendar() {
+  async function loadCalendar() {
+    // await setEventList(createCalendar(times.start, times.end));
+    // console.log(eventList);
     await updateCalendar();
     return (maxAvail);
   }
@@ -47,7 +62,7 @@ function Main(props) {
   // load the main page
   useEffect(() => {
     dispatch(getScheduler);
-    populateCalendar(); // initial load of the calendar
+    loadCalendar(); // initial load of the calendar
     calcMaxAvailable(); // calculate the maximum number of people available for color gradient
   }, []);
 
