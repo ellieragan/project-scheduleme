@@ -1,9 +1,6 @@
 function color(props) {
-<<<<<<< HEAD
-  const availableCount = Math.floor(Math.random() * 8);
-=======
+  const { eventList } = props;
   const { availableCount } = props;
->>>>>>> aba34674adbb1c24211f715ed3bbd403a4d8ca33
   const { maxAvail } = props;
 
   const startColor = {
@@ -16,6 +13,20 @@ function color(props) {
     green: 150,
     blue: 254,
   };
+
+  // style events based on number of people available
+  const calcMaxAvailable = () => { // calculate the maximum number of people available
+    const eventArray = Object.values(eventList);
+    const availArray = Object.values(eventArray);
+    Object.entries(availArray).map(([id, details]) => {
+      if (details.availableCount > maxAvail) {
+        // eslint-disable-next-line no-const-assign
+        maxAvail = details.availableCount;
+      }
+      return (maxAvail);
+    });
+  };
+  calcMaxAvailable();
 
   const calcGradient = (numAvail) => { // calculate the color an event should be based on the number of people available
     // code modified from code by desau at https://stackoverflow.com/questions/3080421/javascript-color-gradient
