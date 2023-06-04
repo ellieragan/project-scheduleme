@@ -90,7 +90,9 @@ function Main(props) {
           </div>
         </div>
         <div id="rightMain">
-          <Available />
+          <Available
+            max={maxAvail}
+          />
           <div>
             <Buttons />
           </div>
