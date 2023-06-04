@@ -10,7 +10,7 @@ const EventReducer = (state = initialState, action = {}) => {
     case ActionTypes.GET_ALL_EVENTS:
       return { ...state, all: action.payload };
     case ActionTypes.GET_EVENT:
-      return { ...state, current: action.payload };
+      return { ...state, all: [...state.all, action.payload] }; // modified from https://stackoverflow.com/questions/40911194/how-do-i-add-an-element-to-array-in-reducer-of-react-native-redux
     case ActionTypes.CREATE_EVENT:
       return { ...state, current: action.payload };
     case ActionTypes.UPDATE_EVENT:

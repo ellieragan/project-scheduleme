@@ -7,34 +7,14 @@ const ROOT_URL = 'https://scheduleatnow-api.onrender.com/api';
 const API_KEY = '?key=M_CRISTOFORO';
 // keys for actiontypes
 const ActionTypes = {
-  GET_ALL_EVENTS: 'GET_ALL_EVENTS',
   GET_EVENT: 'GET_EVENTS',
   CREATE_EVENT: 'CREATE_EVENT',
   UPDATE_EVENT: 'UPDATE_EVENT',
   DELETE_EVENT: 'DELETE_EVENT',
-  CREATE_USER: 'CREATE_USER',
-  GET_USER_EVENTS: 'GET_USER_EVENTS',
-  GET_ALL_USERS: 'GET_ALL_USERS',
   CREATE_SCHEDULER: 'CREATE_SCHEDULER',
-  UPDATE_SCHEDULER: 'UPDATE_SCHEDULER',
   GET_SCHEDULER: 'GET_SCHEDULER',
-  GET_SCHEDULERS: 'GET_SCHEDULERS',
-  GET_SCHEDULER_EVENTS: 'GET_SCHEDULER_EVENTS',
   GET_SCHEDULER_EVENTS_DETAILS: 'GET_SCHEDULER_EVENTS_DETAILS',
   API_ERROR: 'API_ERROR',
-};
-
-const getAllEvents = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`${ROOT_URL}/events${API_KEY}`);
-
-      dispatch({ type: ActionTypes.GET_ALL_EVENTS, payload: response.data });
-      console.log('all getAllEvent response: ', response.data);
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
 };
 
 const getEvent = (id) => {
@@ -86,42 +66,6 @@ const deleteEvent = (id) => {
   };
 };
 
-const createUser = (user) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.post(`${ROOT_URL}/users/${API_KEY}`, user);
-      // console.log('create user response: ', response);
-      dispatch({ type: ActionTypes.CREATE_USER, payload: response.data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
-};
-
-const getUserEvents = (id) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`${ROOT_URL}/users/${id}${API_KEY}`);
-      // console.log('get user events response: ', response);
-      dispatch({ type: ActionTypes.GET_USER_EVENTS, payload: response.data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
-};
-
-const getAllUsers = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`${ROOT_URL}/users${API_KEY}`);
-      // console.log('get all users response: ', response);
-      dispatch({ type: ActionTypes.GET_ALL_USERS, payload: response.data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
-};
-
 const createScheduler = (scheduler, navigate) => { // scheduler passed only has creator and title
   return async (dispatch) => {
     try {
@@ -132,18 +76,6 @@ const createScheduler = (scheduler, navigate) => { // scheduler passed only has 
       console.log('create sche res', response);
       navigate(`/scheduler/${response.data.id}`);
       // navigate('/edit');
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
-};
-
-const updateScheduler = (schedulerInfo, schedulerId) => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.put(`${ROOT_URL}/schedulers/${schedulerId}${API_KEY}`, schedulerInfo);
-      // console.log('update scheduler response: ', response);
-      dispatch({ type: ActionTypes.UPDATE_SCHEDULER, payload: response.data });
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
@@ -162,18 +94,6 @@ const getScheduler = (schedulerId) => {
   };
 };
 
-const getSchedulers = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get(`${ROOT_URL}/schedulers${API_KEY}`);
-      // console.log('get schedulers response: ', response);
-      dispatch({ type: ActionTypes.GET_SCHEDULERS, payload: response.data });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    }
-  };
-};
-
 // const getSchedulerEventsDetails = (schedulerId) => {
 //   return async (dispatch) => {
 //     try {
@@ -186,40 +106,12 @@ const getSchedulers = () => {
 //   };
 // };
 
-const getSchedulerEvents = async (schedulerId) => {
-  try {
-    const response = await axios.get(`${ROOT_URL}/schedulers/${schedulerId}/events${API_KEY}`);
-    return response.data; // Return the events data
-  } catch (error) {
-    throw new Error(`Failed to get scheduler events: ${error}`);
-  }
-};
-
-const getSchedulerEventsDetails = (schedulerId) => {
-  return async (dispatch) => {
-    try {
-      const events = await getSchedulerEvents(schedulerId); // Use the updated function
-      dispatch({ type: ActionTypes.GET_SCHEDULER_EVENTS_DETAILS, payload: events });
-    } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
-    }
-  };
-};
-
 export {
   ActionTypes,
-  getAllEvents,
   getEvent,
   createEvent,
   updateEvent,
   deleteEvent,
-  createUser,
-  getUserEvents,
-  getAllUsers,
   createScheduler,
-  updateScheduler,
   getScheduler,
-  getSchedulers,
-  getSchedulerEvents,
-  getSchedulerEventsDetails,
 };

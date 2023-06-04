@@ -1,6 +1,6 @@
 function color(props) {
-  const { availableCount } = props;
-  const { maxAvail } = props;
+  const { count } = props;
+  const maxAvail = props.max;
 
   const startColor = {
     red: 245,
@@ -30,7 +30,8 @@ function color(props) {
     return (newColor);
   };
 
-  return (calcGradient(availableCount));
+  console.log(calcGradient(count));
+  return (calcGradient(count));
 }
 
 export default color;
