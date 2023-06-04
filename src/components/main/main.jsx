@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ClipLoader } from 'react-spinners';
 import Event from '../event/event';
 import { getEvent, getScheduler } from '../../actions';
 import Buttons from '../buttons/buttons';
@@ -64,7 +66,13 @@ function Main(props) {
         <div id="leftMain">
           <div className="calendarGrid" id="mainCalendar">
             {loading ? (
-              <p>Loading events...</p> // Render a loading message or spinner while events are being fetched
+              <ClipLoader // modified from https://www.npmjs.com/package/react-spinners
+                color="#123abc"
+                loading={loading}
+                size={150}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
             ) : (
               Object.entries(allEvents).map(([id, event]) => (
                 <Event
