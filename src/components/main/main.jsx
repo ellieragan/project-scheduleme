@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { produce } from 'immer';
 import Event from '../event/event';
 import { getEvent, getScheduler } from '../../actions';
 import Buttons from '../buttons/buttons';
@@ -46,6 +45,7 @@ function Main(props) {
     const availArray = Object.values(eventArray);
     Object.entries(availArray).map(([id, details]) => {
       if (details.count > maxAvail) {
+        console.log(details.count);
         setMaxAvail(details.count);
       }
       return (0);
@@ -56,18 +56,19 @@ function Main(props) {
     calcMaxAvailable();
   }, [allEvents]);
 
+  console.log(maxAvail);
   return (
     <div>
       <p className="title">Schedule @ Now</p>
       <div id="mainContainer">
         <div id="leftMain">
           <div className="calendarGrid" id="mainCalendar">
-            {(loading) ? (
+            {loading ? (
               <p>Loading events...</p> // Render a loading message or spinner while events are being fetched
             ) : (
               Object.entries(allEvents).map(([id, event]) => (
                 <Event
-                  key={event._id}
+                  key={id}
                   id={event._id}
                   day={event.day}
                   time={event.time}

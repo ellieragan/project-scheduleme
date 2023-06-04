@@ -70,12 +70,10 @@ const createScheduler = (scheduler, navigate) => { // scheduler passed only has 
   return async (dispatch) => {
     try {
       const response = await axios.post(`${ROOT_URL}/schedulers/${API_KEY}`, scheduler);
-      // console.log('create scheduler response: ', response);
+      console.log('create scheduler response: ', response);
 
       dispatch({ type: ActionTypes.CREATE_SCHEDULER, payload: response.data });
-      console.log('create sche res', response);
       navigate(`/scheduler/${response.data.id}`);
-      // navigate('/edit');
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }

@@ -29,6 +29,7 @@ function Create() {
       creator: eventCreator,
       title: eventTitle,
     };
+    console.log(newScheduler);
 
     dispatch(createScheduler(newScheduler, navigate));
   };
