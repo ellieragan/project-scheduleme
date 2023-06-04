@@ -1,0 +1,21 @@
+#availableGraph{
+  display: felx;
+  flex-direction: column;
+}
+
+#availText{
+  color: rgb(245, 245, 245);
+  font-size: 1em;
+}
+
+#colorScale{
+  display: flex;
+  flex-direction: row;
+}
+
+.availableBlock{
+  height: 20px;
+  width: 20px;
+  margin: 1px;
+  background-color: rgb(245, 245, 245);
+}

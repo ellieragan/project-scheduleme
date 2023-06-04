@@ -1,9 +1,10 @@
 import React from 'react';
 import color from '../../helper/color';
+import './available.scss';
 
 function availableGraph(props) {
   const availableNum = [];
-  const { maxAvail } = props;
+  const maxAvail = props.max;
 
   for (let i = 0; i < maxAvail; i += 1) {
     availableNum.push(i);
@@ -11,11 +12,11 @@ function availableGraph(props) {
 
   return (
     <div id="availableGraph">
-      <p>Number of People Available</p>
+      <p id="availText">Number of People Available</p>
       <div id="colorScale">
-        {Object.entries(availableNum).map((count) => {
+        {Object.entries(availableNum).map((id, count) => {
           return (
-            <div className="availableBlock" color={color({ count, maxAvail })} />
+            <div className="availableBlock" style={color({ count, max: maxAvail })} />
           );
         })}
       </div>
