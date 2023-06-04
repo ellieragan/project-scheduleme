@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ClipLoader from 'react-spinners/ClipLoader';
 import { useDispatch } from 'react-redux';
 import { createScheduler } from '../../actions';
 import laptop from './laptop.png';
@@ -10,6 +12,7 @@ function Create() {
   const navigate = useNavigate();
   const [eventTitle, setEventTitle] = useState('');
   const [eventCreator, setEventCreator] = useState('');
+  const [loading, setLoading] = useState(false); // Track loading state
 
   const onEventNameChange = (event) => {
     setEventTitle(event.target.value);
@@ -20,6 +23,7 @@ function Create() {
   };
 
   const onSubmit = async (event) => {
+    setLoading(!loading);
     event.preventDefault();
     console.log('creating event: ', eventTitle);
     console.log('with user: ', eventCreator);
@@ -50,6 +54,7 @@ function Create() {
           </div>
           <div className="submit-container">
             <button className="submit-btn" type="submit" onClick={onSubmit}>schedule</button>
+            <ClipLoader color="#ffffff" loading={loading} size={50} />
           </div>
         </div>
         <img className="laptop-img" alt="" src={laptop} />
