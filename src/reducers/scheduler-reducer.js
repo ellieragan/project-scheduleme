@@ -15,6 +15,10 @@ const SchedulerReducer = (state = initialState, action = {}) => {
       return { ...state, current: action.payload };
     case ActionTypes.GET_SCHEDULERS:
       return { ...state, all: action.payload };
+    case ActionTypes.GET_SCHEDULER_EVENTS:
+      return { ...state, current: action.payload };
+    case ActionTypes.GET_SCHEDULER_EVENTS_DETAILS:
+      return { ...state, current: action.payload };
     default:
       return state;
   }

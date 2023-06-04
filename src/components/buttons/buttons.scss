@@ -6,31 +6,81 @@
     gap: 8vh;
   }
   
-  #buttonIconContainer{
+  #buttonIconContainerImport,  #buttonIconContainerShare,  #buttonIconContainerSchedule{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
-    width: 10vw;
-    height: 50px;
-    border-radius: 20px;
+    width: 20vw;
+    height: 30px;
+    border-radius: 40px;
     margin: 0;
     height: fit-content;
-    padding: 8px;
-    background-color: #CAB8FF ;
+    // background-color: #CAB8FF ;
     text-decoration: none;
     font-size: 1em;
   }
-  
-  #buttonIconContainer button{
-    border: none;
-    background-color: transparent;
-    font-family: "Nunito", sans-serif;
-    font-size: 1em;
+
+  buttonIconContainerImport #textDiv{
+    color: #000000 ;
   }
+ 
+
+  #textContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 30px;
+    width: 20vw;
+    border-radius: 40px;
+  }
+
   
-  #buttonIconContainer:hover, #icon:hover{
+  // #buttonIconContainer button{
+  //   border: none;
+  //   background-color: transparent;
+  //   font-family: "Nunito", sans-serif;
+  //   font-size: 1em;
+  // }
+  
+  #buttonIconContainerImport:hover, #buttonIconContainerShare:hover, #buttonIconContainerSchedule:hover, #icon:hover{
     cursor: pointer;
+  }
+
+  #buttonIconContainerImport{
+    background-color: #CAB8FF ;
+  }
+
+  #buttonIconContainerShare{
+    background-color: #f9bee4 ;
+  }
+
+  #buttonIconContainerSchedule{
+    background-color: #b2ebf2 ;
+  }
+
+  #circularOutline{
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+  }
+
+  #cloudIcon{
+    color: #CAB8FF;
+  }
+
+  #shareIcon{
+    color: #f9bee4;
+  }
+
+  #scheduleIcon{
+    color: #b2ebf2;
   }
 
   #shareLinkModal{

@@ -3,6 +3,7 @@ import axios from 'axios';
 // citation: followed from Cristoforo Lab 4
 
 const ROOT_URL = 'https://scheduleatnow-api.onrender.com/api';
+// const ROOT_URL = 'http://localhost:9090/api';
 const API_KEY = '?key=M_CRISTOFORO';
 // keys for actiontypes
 const ActionTypes = {
@@ -18,6 +19,8 @@ const ActionTypes = {
   UPDATE_SCHEDULER: 'UPDATE_SCHEDULER',
   GET_SCHEDULER: 'GET_SCHEDULER',
   GET_SCHEDULERS: 'GET_SCHEDULERS',
+  GET_SCHEDULER_EVENTS: 'GET_SCHEDULER_EVENTS',
+  GET_SCHEDULER_EVENTS_DETAILS: 'GET_SCHEDULER_EVENTS_DETAILS',
   API_ERROR: 'API_ERROR',
 };
 
@@ -25,8 +28,9 @@ const getAllEvents = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${ROOT_URL}/events${API_KEY}`);
-      // console.log('all event response: ', response);
+
       dispatch({ type: ActionTypes.GET_ALL_EVENTS, payload: response.data });
+      console.log('all getAllEvent response: ', response.data);
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
@@ -37,7 +41,7 @@ const getEvent = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${ROOT_URL}/events/${id}${API_KEY}`);
-      console.log('get event response: ', response);
+      console.log('get event response: ', response.data);
       dispatch({ type: ActionTypes.GET_EVENT, payload: response.data });
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
@@ -46,16 +50,16 @@ const getEvent = (id) => {
 };
 
 const createEvent = async (event) => {
-  // return async (dispatch) => {
-  try {
-    const response = await axios.post(`${ROOT_URL}/events/${API_KEY}`, event);
-    return response;
-    // dispatch({ type: ActionTypes.CREATE_EVENT, payload: response.data });
-  } catch (error) {
-    // dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
-    return 'error';
-  }
-  // };
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${ROOT_URL}/events/${API_KEY}`, event);
+      // return response;
+      dispatch({ type: ActionTypes.CREATE_EVENT, payload: response.data });
+    } catch (error) {
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
+      // return 'error';
+    }
+  };
 };
 
 const updateEvent = (eventInfo, id) => {
@@ -125,6 +129,7 @@ const createScheduler = (scheduler, navigate) => { // scheduler passed only has 
       // console.log('create scheduler response: ', response);
 
       dispatch({ type: ActionTypes.CREATE_SCHEDULER, payload: response.data });
+      console.log('create sche res', response);
       navigate(`/scheduler/${response.data.id}`);
       // navigate('/edit');
     } catch (error) {
@@ -169,6 +174,38 @@ const getSchedulers = () => {
   };
 };
 
+// const getSchedulerEventsDetails = (schedulerId) => {
+//   return async (dispatch) => {
+//     try {
+//       const response = await axios.get(`${ROOT_URL}/schedulers/${schedulerId}/events${API_KEY}`);
+//       // console.log('get scheduler events details response: ', response);
+//       dispatch({ type: ActionTypes.GET_SCHEDULER_EVENTS_DETAILS, payload: response.data });
+//     } catch (error) {
+//       dispatch({ type: ActionTypes.API_ERROR, payload: error });
+//     }
+//   };
+// };
+
+const getSchedulerEvents = async (schedulerId) => {
+  try {
+    const response = await axios.get(`${ROOT_URL}/schedulers/${schedulerId}/events${API_KEY}`);
+    return response.data; // Return the events data
+  } catch (error) {
+    throw new Error(`Failed to get scheduler events: ${error}`);
+  }
+};
+
+const getSchedulerEventsDetails = (schedulerId) => {
+  return async (dispatch) => {
+    try {
+      const events = await getSchedulerEvents(schedulerId); // Use the updated function
+      dispatch({ type: ActionTypes.GET_SCHEDULER_EVENTS_DETAILS, payload: events });
+    } catch (error) {
+      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+    }
+  };
+};
+
 export {
   ActionTypes,
   getAllEvents,
@@ -183,4 +220,6 @@ export {
   updateScheduler,
   getScheduler,
   getSchedulers,
+  getSchedulerEvents,
+  getSchedulerEventsDetails,
 };

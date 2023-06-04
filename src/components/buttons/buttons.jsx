@@ -13,8 +13,6 @@ import { NavLink } from 'react-router-dom';
 
 function Buttons(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [icon, setIcon] = useState(MdContentCopy);
 
   const shareUrl = window.location.href;
   const onShareButtonClick = () => {
@@ -22,12 +20,7 @@ function Buttons(props) {
   };
 
   const onCloseModal = () => {
-    // check if modal is open
-    console.log(modalIsOpen);
-    console.log('close');
-    console.log('closing moddal');
     setModalIsOpen(false);
-    console.log(modalIsOpen);
   };
 
   const onCopyClick = () => {
@@ -39,21 +32,28 @@ function Buttons(props) {
     // go through every users availability and find times all are available
   };
 
-  const onImportButtonClick = () => {
-    console.log('import');
-    // render authentication page
-  };
-
   return (
     <div id="mainButtonContainer">
-      <NavLink id="buttonIconContainer" to="/import">
-        Import
-        <MdOutlineCloudUpload />
+      <div role="presentation" id="buttonIconMainContainer" onClick={onScheduleButtonClick} />
+      <NavLink id="buttonIconContainerImport" to="/import">
+        <div id="textContainer">
+          <span id="textDiv">Import</span>
+        </div>
+        <div id="circularOutline">
+          <MdOutlineCloudUpload className="icon" id="cloudIcon" />
+        </div>
       </NavLink>
-      <div role="presentation" id="buttonIconContainer" onClick={onShareButtonClick}>
-        <button type="button">Share</button>
-        <MdLink />
-        <Modal id="shareLinkModal" isOpen={modalIsOpen}>
+      <div role="presentation" id="mainContainerWithModal">
+        <div role="presentation" id="buttonIconContainerShare" onClick={onShareButtonClick}>
+          <div id="textContainer">
+            <span id="textDiv">Share</span>
+          </div>
+          {/* <button type="button" onClick={onShareButtonClick}>Share</button> */}
+          <div id="circularOutline">
+            <MdLink className="icon" id="shareIcon" />
+          </div>
+        </div>
+        <Modal id="shareLinkModal" isOpen={modalIsOpen} onRequestClose={onCloseModal}>
           <h5 className="invite-text">Invite others to schedule a meeting: </h5>
           <div id="shareLink">
             <p className="link-text">{window.location.href}</p>
@@ -69,9 +69,13 @@ function Buttons(props) {
           </div>
         </Modal>
       </div>
-      <div role="presentation" id="buttonIconContainer" onClick={onScheduleButtonClick}>
-        <button type="button">Schedule</button>
-        <MdOutlineCalendarToday />
+      <div role="presentation" id="buttonIconContainerSchedule" onClick={onScheduleButtonClick}>
+        <div id="textContainer">
+          <span id="textDiv">Schedule</span>
+        </div>
+        <div id="circularOutline">
+          <MdOutlineCalendarToday className="icon" id="scheduleIcon" />
+        </div>
       </div>
 
     </div>
