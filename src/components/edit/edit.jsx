@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Timeslot from './timeslot';
 import {
-  getAllEvents, getEvent, getScheduler, updateEvent,
+  getAllEvents, getEvent, getScheduler, getSchedulers, updateEvent,
 } from '../../actions/index';
 import './edit.scss';
 
@@ -13,19 +13,57 @@ function Edit(props) {
   const dispatch = useDispatch();
   // const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
   const scheduler = useSelector((reduxState) => { return reduxState.scheduler.current; });
+  // const scheduler = dispatch(getScheduler('647c01fb3bb36d74ffbcdd33'));
   const [eventList, setEventList] = useState({}); // list of all events
   const [eventInput, setEventInput] = useState([]);
+  const schedulerId = '647c01fb3bb36d74ffbcdd33';
   const navigate = useNavigate();
+  // eslint-disable-next-line prefer-destructuring
+  const userName = props.userName;
+  console.log('user:', userName);
+
+  useEffect(() => {
+    dispatch(getScheduler(schedulerId));
+  }, [dispatch, schedulerId]);
+
+  useEffect(() => {
+    if (scheduler && scheduler.events) {
+      console.log('scheduler:', scheduler);
+      const fetchEvents = async () => {
+        const eventPromises = scheduler.events.map((eventId) => dispatch(getEvent(eventId)));
+        const events = await Promise.all(eventPromises);
+        const updatedEventList = {};
+
+        events.forEach((event) => {
+          if (event.data) {
+            console.log('ughhhh:', event.data);
+            const { day, time, block } = event;
+            const timeString = `${day}.${time}.${block}`;
+
+            updatedEventList[timeString] = {
+              ...event,
+              count: 0,
+              available: [],
+            };
+          }
+        });
+
+        setEventList(updatedEventList);
+      };
+      fetchEvents();
+    }
+    console.log('event list 3', eventList);
+  }, [scheduler]);
 
   useEffect(() => {
     dispatch(getAllEvents());
-    dispatch(getScheduler('64778ca4a3211ffd41ac95e1'));
+    // dispatch(getScheduler('647c01fb3bb36d74ffbcdd33'));
     // loadCalendar();
   }, []);
 
   // useEffect(() => {
   //   console.log('scheduler: ', scheduler);
-  //   setEventList(scheduler.events);
+  //   // setEventList(scheduler.events);
   // }, [scheduler]);
 
   // useEffect(() => {
@@ -98,11 +136,9 @@ function Edit(props) {
     let currID = startID;
     while (currID !== endID) {
       updateEventList(currID);
-      console.log('currid,', currID);
       const split = currID.split('.');
       const day = split[0];
       let hour = split[1];
-      console.log('hour:', hour);
       const nextBlock = (parseInt(split[2], 10) + 1) % 4;
       if (nextBlock === 0) { // if the block has rolled over from 45 to the hour:
         hour = String(Number(hour) + 1); // increment the hour
@@ -118,15 +154,10 @@ function Edit(props) {
       // find start day.time.block
       console.log('name: ', details.summary);
       let gcalDay = new Date(details.starttime).getUTCDay();
-      console.log('gcal day:', gcalDay);
       const currDay = new Date().getUTCDay();
-      console.log('curr day:', currDay);
-      let day = (gcalDay - currDay);// Adjust the day relative to the current day so today is always day 0
-      console.log('day: ', day);
+      let day = (gcalDay - currDay);// Adjust the day relative to the current day
       let time = new Date(details.starttime).getHours();
-      console.log('time:', time);
       let block = Math.ceil(new Date(details.starttime).getUTCMinutes() / 15);
-      console.log('block: ', block);
 
       const startID = `${day}.${time}.${block}`;
 
@@ -157,6 +188,7 @@ function Edit(props) {
   async function loadCalendar() {
     await updateCalendar();
     await getDay(gcalInput);
+    console.log('eventlist 2', eventList);
   }
 
   useEffect(() => {
@@ -178,34 +210,62 @@ function Edit(props) {
     });
   };
 
-  // helper function to call api to update available events
-  const updateData = async (details) => {
-    // commented out for now
-    console.log('details;', details);
-    const free = await dispatch(getEvent(details.id));
+  // // helper function to call api to update available events
+  // const updateData = async (details) => {
+  //   // commented out for now
+  //   console.log('details;', details);
+  //   const free = await dispatch(getEvent(details.id));
 
-    if (free) {
-      await dispatch(updateEvent(details.id, {
-        count: free.details.count + 1,
-        available: [...free.details.available, details.name],
-      }));
+  //   if (free) {
+  //     await dispatch(updateEvent(details.id, {
+  //       count: free.details.count + 1,
+  //       available: [...free.details.available, details.name],
+  //     }));
+  //   }
+  // };
+
+  // // calls helper function upon pressing "done"
+  // const handleDoneClick = () => {
+  //   // scheduler
+  //   Object.entries(eventList).forEach(([timeId, details]) => {
+  //     if (details.busy) {
+  //       const event = eventList[timeId];
+  //       event.count += 1;
+  //       event.available.push(userName);
+  //       // console.log('updated event: ', event);
+  //       eventList[timeId] = event;
+  //       // event.getAllEvents
+  //       // console.log('time and id:', timeId, details.key);
+  //       // updateData(details);
+  //     }
+  //     console.log('updated event list: ', eventList);
+  //   });
+  //   // navigate(`/scheduler/64778ca4a3211ffd41ac95e1/${JSON.stringify(eventList)}`);
+  //   navigate('/scheduler/647c01fb3bb36d74ffbcdd33');
+  // };
+
+  const updateData = async (eventId, user) => {
+    const event = await dispatch(getEvent(eventId));
+
+    if (event) {
+      const updatedEvent = {
+        count: event.details.count + 1,
+        available: [...event.details.available, userName],
+      };
+
+      await dispatch(updateEvent(eventId, updatedEvent));
     }
   };
 
-  // calls helper function upon pressing "done"
-  const handleDoneClick = () => {
-    Object.entries(eventList).forEach(([timeId, details]) => {
+  const handleDoneClick = async () => {
+    for (const [timeId, details] of Object.entries(eventList)) {
       if (details.busy) {
-        const event = eventList[timeId];
-        event.count += 1;
-        eventList[timeId] = event;
-        // event.getAllEvents
-        console.log(timeId);
-        // updateData(details);
+        const eventId = details.id;
+        updateData(eventId, userName);
       }
-    });
-    // navigate(`/scheduler/64778ca4a3211ffd41ac95e1/${JSON.stringify(eventList)}`);
-    navigate('/scheduler/64778ca4a3211ffd41ac95e1');
+    }
+
+    navigate('/scheduler/647c01fb3bb36d74ffbcdd33');
   };
 
   const getTimeslotColor = (id, details, gcalIn) => {
@@ -218,7 +278,7 @@ function Edit(props) {
     }
   };
 
-  console.log(eventList);
+  console.log('event list:', eventList);
   return (
     // <div>edit page</div>
     <div id="editPage">

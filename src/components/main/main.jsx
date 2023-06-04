@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { produce } from 'immer';
 import Event from '../event/event';
-import { getAllEvents, getScheduler } from '../../actions';
+import { getAllEvents } from '../../actions';
 import Buttons from '../buttons/buttons';
 import Available from '../available/availableGraph';
 import color from '../../helper/color';
@@ -16,7 +16,7 @@ function Main(props) {
   // eslint-disable-next-line no-unused-vars
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
-  const maxAvail = 8;
+  const maxAvail = 0;
   const params = useParams();
   console.log('params: ', params);
 

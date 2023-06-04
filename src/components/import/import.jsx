@@ -19,6 +19,7 @@ function Import() {
   const [gcalEvents, setGcalEvents] = useState([]);
   const [eventsReceived, setEventsReceived] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
+  const [userName, setUserName] = useState('');
 
   function getLocalISOString(date) { // function for getting ISO string in local timezone from https://gist.github.com/loilo/736d5beaef4a96d652f585b1b678a12c
     const offset = date.getTimezoneOffset();
@@ -59,6 +60,7 @@ function Import() {
       // maxResults: 10,
       orderBy: 'updated',
     }).then(({ result }) => {
+      setUserName(result.items[0].creator.email);
       console.log(result.items);
       result.items.forEach((event) => {
         const newEvent = {
@@ -66,7 +68,6 @@ function Import() {
           endtime: event.end.dateTime,
           busy: true,
           gcal: true,
-          name: event.creator.email,
           summary: event.summary,
         };
         addEvent(newEvent);
@@ -95,7 +96,7 @@ function Import() {
       }
     } else {
       return (
-        <Edit gcalEvents={gcalEvents} />
+        <Edit gcalEvents={gcalEvents} userName={userName} />
       );
     }
   };

@@ -151,7 +151,7 @@ const getScheduler = (schedulerId) => {
       // console.log('get scheduler response: ', response);
       dispatch({ type: ActionTypes.GET_SCHEDULER, payload: response.data });
     } catch (error) {
-      dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }
   };
 };
