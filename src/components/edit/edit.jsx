@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import { useDispatch, useSelector } from 'react-redux';
 import Timeslot from './timeslot';
 import {
-  getAllEvents, getEvent, getScheduler, updateEvent,
+  getEvent, getScheduler, updateEvent,
 } from '../../actions/index';
 
 function Edit(props) {
@@ -14,7 +14,6 @@ function Edit(props) {
   const [eventList, setEventList] = useState({}); // list of all events
 
   useEffect(() => {
-    dispatch(getAllEvents());
     dispatch(getScheduler('64778ca4a3211ffd41ac95e1'));
     // loadCalendar();
   }, []);
