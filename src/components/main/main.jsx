@@ -4,21 +4,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { produce } from 'immer';
 import Event from '../event/event';
-import { getAllEvents, getEvent } from '../../actions';
+import { getAllEvents, getEvent, getScheduler } from '../../actions';
 import Buttons from '../buttons/buttons';
 import color from '../../helper/color';
 import './main.scss';
 
 function Main(props) {
   const dispatch = useDispatch();
+  const params = useParams();
+  console.log('params', params);
+  console.log('schedulerId', params.SchedulerId);
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
   const [eventInput, setEventInput] = useState([]);
+  // const [eventIds, setEventIds] = useState([]);
   const [loading, setLoading] = useState(true); // Track loading state
   const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
   const [eventList, setEventList] = useState({});
   const maxAvail = 0;
   const eventIds = useSelector((reduxState) => reduxState.scheduler.current.events);
   console.log('eventIds', eventIds);
+
+  /// get the scheduler
+  useEffect(() => {
+    dispatch(getScheduler(params.SchedulerId))
+      .catch((error) => {
+        // Handle error fetching event details
+        console.log('error', error);
+      });
+  }, [dispatch, params.schedulerId]);
 
   // update current spaces on calendar based on user input
   const updateEvent = (id, event) => { // modified from Chloe Fugle lab 3
@@ -77,10 +90,10 @@ function Main(props) {
   //   // await updateCalendar();
   //   return (maxAvail);
   // }
-  useEffect(() => {
-    dispatch(getAllEvents());
-    // loadCalendar(); // initial load of the calendar
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllEvents());
+  //   // loadCalendar(); // initial load of the calendar
+  // }, []);
 
   useEffect(() => {
     setEventInput(allEvents); // once events are gotten from useSelector, set state
