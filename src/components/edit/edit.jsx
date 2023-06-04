@@ -7,6 +7,7 @@ import Timeslot from './timeslot';
 import {
   getAllEvents, getEvent, getScheduler, updateEvent,
 } from '../../actions/index';
+import './edit.scss';
 
 function Edit(props) {
   const dispatch = useDispatch();
@@ -115,11 +116,17 @@ function Edit(props) {
     // for each gcal event
     Object.entries(gcalIn).forEach(([id, details]) => {
       // find start day.time.block
+      console.log('name: ', details.summary);
       let gcalDay = new Date(details.starttime).getUTCDay();
+      console.log('gcal day:', gcalDay);
       const currDay = new Date().getUTCDay();
+      console.log('curr day:', currDay);
       let day = (gcalDay - currDay);// Adjust the day relative to the current day so today is always day 0
+      console.log('day: ', day);
       let time = new Date(details.starttime).getHours();
+      console.log('time:', time);
       let block = Math.ceil(new Date(details.starttime).getUTCMinutes() / 15);
+      console.log('block: ', block);
 
       const startID = `${day}.${time}.${block}`;
 
@@ -172,18 +179,18 @@ function Edit(props) {
   };
 
   // helper function to call api to update available events
-  // const updateData = async (details) => {
-  //   // commented out for now
-  //   console.log('details;', details);
-  //   const free = await dispatch(getEvent(details.id));
+  const updateData = async (details) => {
+    // commented out for now
+    console.log('details;', details);
+    const free = await dispatch(getEvent(details.id));
 
-  //   if (free) {
-  //     // await dispatch(updateEvent(details.id, {
-  //       count: free.details.count + 1,
-  //       available: [...free.details.available, 'ellie'],
-  //     }));
-  //   }
-  // };
+    if (free) {
+      await dispatch(updateEvent(details.id, {
+        count: free.details.count + 1,
+        available: [...free.details.available, details.name],
+      }));
+    }
+  };
 
   // calls helper function upon pressing "done"
   const handleDoneClick = () => {
@@ -197,7 +204,8 @@ function Edit(props) {
         // updateData(details);
       }
     });
-    navigate(`/scheduler/64778ca4a3211ffd41ac95e1/${JSON.stringify(eventList)}`);
+    // navigate(`/scheduler/64778ca4a3211ffd41ac95e1/${JSON.stringify(eventList)}`);
+    navigate('/scheduler/64778ca4a3211ffd41ac95e1');
   };
 
   const getTimeslotColor = (id, details, gcalIn) => {
@@ -210,13 +218,13 @@ function Edit(props) {
     }
   };
 
-  // if (scheduler) {
+  console.log(eventList);
   return (
     // <div>edit page</div>
     <div id="editPage">
-      <div className="editGrid editCalendar" id="editCalendar">
+      <div className="grid" id="editCalendar" style={{ marginLeft: '20px' }}>
         {Object.entries(eventList).map(([timeId, details]) => (
-          <Timeslot
+          <Timeslot className="grid-cell"
             key={timeId}
             id={timeId}
             day={details.day}
@@ -224,7 +232,7 @@ function Edit(props) {
             startblock={details.startblock}
             endtime={details.endtime}
             endblock={details.endblock}
-            color={getTimeslotColor(timeId, details, [])}
+            color={getTimeslotColor(timeId, details, eventList)}
             busy={details.busy}
             onClick={() => handleTimeslotClick(timeId)}
           />

@@ -123,10 +123,9 @@ const createScheduler = (scheduler, navigate) => { // scheduler passed only has 
     try {
       const response = await axios.post(`${ROOT_URL}/schedulers/${API_KEY}`, scheduler);
       // console.log('create scheduler response: ', response);
-
+      console.log('data1:', response.data.id);
       dispatch({ type: ActionTypes.CREATE_SCHEDULER, payload: response.data });
       navigate(`/scheduler/${response.data.id}`);
-      // navigate('/edit');
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
     }

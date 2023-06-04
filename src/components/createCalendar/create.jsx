@@ -57,10 +57,9 @@ function Create() {
       creator: eventCreator,
       title: eventTitle,
     };
-
     console.log('new scheduler: ', newScheduler);
-
-    dispatch(createScheduler(newScheduler, navigate));
+    const data = await dispatch(createScheduler(newScheduler, navigate));
+    console.log('id: ', data);
   };
 
   return (

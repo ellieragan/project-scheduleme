@@ -1,6 +1,6 @@
 body, html {
   font-family: "Nunito", sans-serif;
-  background: rgb(215, 246, 255);
+  background: rgb(0, 0, 0);
   height: 100%;
 }
 
@@ -9,6 +9,8 @@ body, html {
 }
 
 #editPage{
+  justify-content: center;
+  align-content: center;
   display: flex;
   }
   
@@ -57,9 +59,9 @@ body, html {
   //   font-weight: bold;
   // }
   
-  // .empty-slot {
-  //   background-color: rgb(133, 125, 180);
-  // }
+  .empty-slot {
+    background-color: rgb(133, 125, 180);
+  }
   
   .editGrid {
   display: grid;
