@@ -27,6 +27,9 @@ body {
 .submit-container {
     display: flex;
     justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
 }
 .laptop-img {
     width: 350px;
