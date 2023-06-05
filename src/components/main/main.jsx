@@ -32,6 +32,7 @@ function Main(props) {
       try {
         const promises = eventIds.map((id) => dispatch(getEvent(id)));
         const events = await Promise.all(promises);
+        console.log('main events', events);
         setLoading(false); // Set loading state to false when all events are fetched
       } catch (error) {
         // Handle error fetching event details
@@ -47,7 +48,7 @@ function Main(props) {
     const availArray = Object.values(eventArray);
     Object.entries(availArray).map(([id, details]) => {
       if (details.count > maxAvail) {
-        console.log(details.count);
+        // console.log(details.count);
         setMaxAvail(details.count);
       }
       return (0);
@@ -58,7 +59,7 @@ function Main(props) {
     calcMaxAvailable();
   }, [allEvents]);
 
-  console.log(maxAvail);
+  // console.log(maxAvail);
   return (
     <div>
       <p className="title">Schedule @ Now</p>

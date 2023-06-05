@@ -30,7 +30,7 @@ function color(props) {
     return (newColor);
   };
 
-  console.log(calcGradient(count));
+  // console.log(calcGradient(count));
   return (calcGradient(count));
 }
 
