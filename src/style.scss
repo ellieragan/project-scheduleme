@@ -8,6 +8,14 @@ body, html {
   text-size-adjust: 100%;
 }
 
+nav{
+  display: none;
+}
+
+.logo{
+  display: none;
+}
+
 #editPage{
   justify-content: center;
   align-content: center;
@@ -48,6 +56,7 @@ body, html {
   transform: translateX(-50%);
   }
   
+<<<<<<< HEAD
   // .timeslot {
   //   background-color: rgb(173, 59, 59);
   //   width: 100%;
@@ -63,6 +72,8 @@ body, html {
     background-color: rgb(133, 125, 180);
   }
   
+=======
+>>>>>>> 1e9bc4c206eb71340d8afe1d76f628c637ea11dd
   .editGrid {
   display: grid;
   grid-template-columns: repeat(7, 1fr); // loosely based off some code found at https://css-tricks.com/making-a-bar-chart-with-css-grid/
@@ -86,18 +97,3 @@ body, html {
   transform: scale(1.01);
   box-shadow: 1px 1px 1px rgb(185, 185, 185);
   }
-  
-  // .timeslot {
-  //   width: 100%;
-  //   height: 100%;
-  // }
-  
-  // .emptySlot {
-  //   width: 100%;
-  //   height: 100%;
-  // }
-  
-  // .editCalendar {
-  //   grid-row: 1 / span 16;
-  //   grid-column: 1 / span 8;
-  // }

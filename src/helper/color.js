@@ -1,7 +1,12 @@
 function color(props) {
+<<<<<<< HEAD
   const { eventList } = props;
   const { availableCount } = props;
   const { maxAvail } = props;
+=======
+  const { count } = props;
+  const maxAvail = props.max;
+>>>>>>> 1e9bc4c206eb71340d8afe1d76f628c637ea11dd
 
   const startColor = {
     red: 245,
@@ -45,8 +50,13 @@ function color(props) {
     return (newColor);
   };
 
+<<<<<<< HEAD
   // console.log(calcGradient(availableCount));
   return (calcGradient(availableCount));
+=======
+  console.log(calcGradient(count));
+  return (calcGradient(count));
+>>>>>>> 1e9bc4c206eb71340d8afe1d76f628c637ea11dd
 }
 
 export default color;
