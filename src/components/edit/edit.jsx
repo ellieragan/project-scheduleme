@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Timeslot from './timeslot';
 import {
-  getAllEvents, getEvent, getScheduler, getSchedulers, updateEvent,
+  getEvent, getScheduler, updateEvent,
 } from '../../actions/index';
 import './edit.scss';
 
@@ -16,7 +16,7 @@ function Edit(props) {
   // const scheduler = dispatch(getScheduler('647c01fb3bb36d74ffbcdd33'));
   const [eventList, setEventList] = useState({}); // list of all events
   const [eventInput, setEventInput] = useState([]);
-  const schedulerId = '647c01fb3bb36d74ffbcdd33';
+  const schedulerId = '647d45cc22e90f09dd8fba7f';
   const navigate = useNavigate();
   // eslint-disable-next-line prefer-destructuring
   const userName = props.userName;
@@ -30,13 +30,18 @@ function Edit(props) {
     if (scheduler && scheduler.events) {
       console.log('scheduler:', scheduler);
       const fetchEvents = async () => {
+        console.log('scheduler 2', scheduler);
         const eventPromises = scheduler.events.map((eventId) => dispatch(getEvent(eventId)));
+        console.log('event promises', eventPromises);
         const events = await Promise.all(eventPromises);
         const updatedEventList = {};
 
+        console.log('all events: ', events);
+
         events.forEach((event) => {
-          if (event.data) {
-            console.log('ughhhh:', event.data);
+          console.log('in for loop');
+          if (event) {
+            console.log('event:', event);
             const { day, time, block } = event;
             const timeString = `${day}.${time}.${block}`;
 
@@ -56,7 +61,7 @@ function Edit(props) {
   }, [scheduler]);
 
   useEffect(() => {
-    dispatch(getAllEvents());
+    // dispatch(getAllEvents());
     // dispatch(getScheduler('647c01fb3bb36d74ffbcdd33'));
     // loadCalendar();
   }, []);
@@ -265,7 +270,7 @@ function Edit(props) {
       }
     }
 
-    navigate('/scheduler/647c01fb3bb36d74ffbcdd33');
+    navigate('/scheduler/647d45cc22e90f09dd8fba7f');
   };
 
   const getTimeslotColor = (id, details, gcalIn) => {
