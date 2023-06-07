@@ -16,7 +16,10 @@ function Main(props) {
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
   const [loading, setLoading] = useState(true); // Track loading state
   const [maxAvail, setMaxAvail] = useState(0);
-  const eventIds = useSelector((reduxState) => reduxState.scheduler.current.events);
+  const eventIds = useSelector((reduxState) => reduxState.scheduler);
+  console.log('LOOK: ', allEvents);
+  console.log('parameterrrr: ', params.SchedulerId);
+  console.log('iDSSSS', eventIds);
 
   /// get the scheduler
   useEffect(() => {
@@ -30,14 +33,22 @@ function Main(props) {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        console.log('iDSSSS', eventIds);
         const promises = eventIds.map((id) => dispatch(getEvent(id)));
         const events = await Promise.all(promises);
+        console.log('promiseee', promises);
         console.log('main events', events);
         setLoading(false); // Set loading state to false when all events are fetched
       } catch (error) {
         // Handle error fetching event details
       }
     };
+
+    if (eventIds.length > 0) {
+      fetchEvents();
+    } else {
+      setLoading(false); // If eventIds is empty, set loading state to false immediately
+    }
 
     fetchEvents();
   }, [dispatch, eventIds]);
@@ -95,7 +106,7 @@ function Main(props) {
             max={maxAvail}
           />
           <div>
-            <Buttons />
+            <Buttons id={params.SchedulerId} />
           </div>
         </div>
       </div>

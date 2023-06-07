@@ -12,6 +12,8 @@ import './buttons.scss';
 import { NavLink } from 'react-router-dom';
 
 function Buttons(props) {
+  const { schedulerId } = props.id;
+  console.log('button!!!!', schedulerId);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const shareUrl = window.location.href;
@@ -35,7 +37,7 @@ function Buttons(props) {
   return (
     <div id="mainButtonContainer">
       <div role="presentation" id="buttonIconMainContainer" onClick={onScheduleButtonClick} />
-      <NavLink id="buttonIconContainerImport" to="/import">
+      <NavLink id="buttonIconContainerImport" to={`/import/${schedulerId}`}>
         <div id="textContainer">
           <span id="textDiv">Import</span>
         </div>
