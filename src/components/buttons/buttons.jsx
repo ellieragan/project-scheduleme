@@ -12,8 +12,7 @@ import './buttons.scss';
 import { NavLink } from 'react-router-dom';
 
 function Buttons(props) {
-  const { schedulerId } = props.id;
-  console.log('button!!!!', schedulerId);
+  const schedulerId = props.id;
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const shareUrl = window.location.href;

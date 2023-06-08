@@ -21,7 +21,7 @@ function App(props) {
           {/* <Route path="/" element={<Main />} /> */}
           <Route path="/scheduler/:SchedulerId" element={<Main />} />
           <Route path="/edit" element={<Edit />} />
-          <Route path="/import" element={<Import />} />
+          <Route path="/import/:schedulerId" element={<Import />} />
           <Route path="*" element={<FallBack />} />
         </Routes>
       </div>

@@ -21,7 +21,7 @@ const getEvent = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${ROOT_URL}/events/${id}${API_KEY}`);
-      console.log('get event response: ', response.data);
+      // console.log('get event response: ', response.data);
       dispatch({ type: ActionTypes.GET_EVENT, payload: response.data });
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error.message });
@@ -84,7 +84,7 @@ const getScheduler = (schedulerId) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${ROOT_URL}/schedulers/${schedulerId}${API_KEY}`);
-      // console.log('get scheduler response: ', response);
+      console.log('get scheduler response: ', response);
       dispatch({ type: ActionTypes.GET_SCHEDULER, payload: response.data });
     } catch (error) {
       dispatch({ type: ActionTypes.API_ERROR, payload: error });

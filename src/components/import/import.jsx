@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ApiCalendar from 'react-google-calendar-api';
 import './import.scss';
+import { useParams } from 'react-router-dom';
 import Edit from '../edit/edit';
 
 const config = {
@@ -19,6 +20,12 @@ function Import() {
   const [gcalEvents, setGcalEvents] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
   const [userName, setUserName] = useState('');
+
+  const params = useParams();
+  // const queryParams = new URLSearchParams(location.search);
+  // const schedulerId = queryParams.get('schedulerId');
+  const schedulerId = params;
+  // console.log('scheduler in import:', schedulerId);
 
   function getLocalISOString(date) { // function for getting ISO string in local timezone from https://gist.github.com/loilo/736d5beaef4a96d652f585b1b678a12c
     const offset = date.getTimezoneOffset();
@@ -59,8 +66,7 @@ function Import() {
       // maxResults: 10,
       orderBy: 'updated',
     }).then(({ result }) => {
-      setUserName(result.items[0].creator.email);
-      console.log(result.items);
+      setUserName(result.summary);
       result.items.forEach((event) => {
         const newEvent = {
           starttime: event.start.dateTime,
@@ -86,7 +92,7 @@ function Import() {
       );
     } else {
       return (
-        <Edit gcalEvents={gcalEvents} userName={userName} />
+        <Edit gcalEvents={gcalEvents} userName={userName} schedulerId={schedulerId} />
       );
     }
   };

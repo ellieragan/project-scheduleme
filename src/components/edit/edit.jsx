@@ -13,65 +13,59 @@ import './edit.scss';
 function Edit(props) {
   const dispatch = useDispatch();
   const params = useParams();
+  const [scheduler, setScheduler] = useState(null);
   // const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
-  const scheduler = useSelector((reduxState) => { return reduxState.scheduler.current; });
-  // const scheduler = dispatch(getScheduler('647c01fb3bb36d74ffbcdd33'));
+  // const scheduler = useSelector((reduxState) => { return reduxState.scheduler.current; });
   const allEvents = useSelector((reduxState) => { return reduxState.event.all; });
   const [eventList, setEventList] = useState({}); // list of all events
   const [eventInput, setEventInput] = useState([]);
-  const schedulerId = '647d45cc22e90f09dd8fba7f';
+  const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
+  const Id = params.schedulerId;
   const navigate = useNavigate();
   // eslint-disable-next-line prefer-destructuring
   const userName = props.userName;
-  console.log('user:', userName);
 
-  /// get the scheduler
-  useEffect(() => { // code borrowed from main.jsx
-    console.log('error here');
-    // dispatch(getScheduler(params.SchedulerId))
-    dispatch(getScheduler(schedulerId))
-      .catch((error) => {
-        // Handle error fetching event details
-        console.log('error', error);
+  // get every event id from the scheduler, get the corresponding event from the api, and update the event list
+  const fetchEvents = async (schedulerResponse) => {
+    try {
+      // console.log('scheduler response:', schedulerResponse);
+      const promises = schedulerResponse.events.map((id) => dispatch(getEvent(id)));
+      const events = await Promise.all(promises);
+      const updatedEventList = {};
+
+      // console.log('all events: ', events);
+
+      events.forEach((event) => { // code borrowed from main.jsx
+        if (event) {
+          const { day, time, block } = event;
+          const timeString = `${day}.${time}.${block}`;
+
+          updatedEventList[timeString] = {
+            ...event,
+            count: 0,
+            available: [],
+          };
+        }
       });
-  }, [dispatch, schedulerId]);
 
-  // useEffect(() => {
-  //   dispatch(getScheduler(schedulerId));
-  // }, [dispatch, schedulerId]);
+      setEventList(updatedEventList);
+    } catch (error) {
+      console.log('error: ', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const promises = scheduler.events.map((id) => dispatch(getEvent(id)));
-        const events = await Promise.all(promises);
-        const updatedEventList = {};
+    dispatch(getScheduler(Id))
+      .then((schedulerResponse) => {
+        setScheduler(schedulerResponse);
+        fetchEvents(schedulerResponse);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  }, [dispatch, Id]);
 
-        console.log('all events: ', events);
-
-        events.forEach((event) => {
-          console.log('in for loop');
-          if (event) {
-            console.log('event:', event);
-            const { day, time, block } = event;
-            const timeString = `${day}.${time}.${block}`;
-
-            updatedEventList[timeString] = {
-              ...event,
-              count: 0,
-              available: [],
-            };
-          }
-        });
-
-        setEventList(updatedEventList);
-      } catch (error) {
-        console.log('error: ', error);
-      }
-    };
-
-    fetchEvents();
-  }, [dispatch, scheduler.events]);
+  // the code below was a second attempt at doing the same thing the above code does
 
   // useEffect(() => {
   //   if (scheduler && scheduler.events) {
@@ -107,28 +101,12 @@ function Edit(props) {
   //   console.log('event list 3', eventList);
   // }, [scheduler]);
 
-  // useEffect(() => {
-  //   // dispatch(getAllEvents());
-  //   // dispatch(getScheduler('647c01fb3bb36d74ffbcdd33'));
-  //   // loadCalendar();
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log('scheduler: ', scheduler);
-  //   // setEventList(scheduler.events);
-  // }, [scheduler]);
-
-  // useEffect(() => {
-  //   console.log('allevents 2,', eventList);
-  // }, [eventList]);
-  console.log('props:', props);
+  // fill in imported gcal events
   const [gcalInput, setGcalInput] = useState(props.gcalEvents);
 
   useEffect(() => {
     console.log('gcal input', gcalInput);
   }, [gcalInput]);
-
-  const [times, setTimes] = useState({ start: 9, end: 18 }); // default start and end time of the calendar
 
   const timeList = {};
   const createCalendar = (start, end) => {
@@ -156,7 +134,6 @@ function Edit(props) {
       updateEvent(id, details);
       return (0);
     });
-    console.log(eventList);
   };
 
   // // updates events to reflect the entirety of gcal blocks, rather than just the start
@@ -214,29 +191,15 @@ function Edit(props) {
     });
   };
 
-  // useEffect(() => { updateCalendar(); }, []);
-
-  // const emptyEventList = createCalendar(times.start, times.end);
-
-  // add events to the blank calendar
-  // const updateCalendar = () => {
-  //   Object.entries(gcalInput).map(([id, details]) => {
-  //     produceEvent(id, details);
-  //     return (0);
-  //   });
-  // };
-
   async function loadCalendar() {
     await updateCalendar();
     await getDay(gcalInput);
-    console.log('eventlist 2', eventList);
   }
 
   useEffect(() => {
-    // dispatch(getAllEvents());
-    // dispatch(getScheduler('64778ca4a3211ffd41ac95e1'));
     loadCalendar();
   }, []);
+
   // sets available events as "busy" upon click and vice versa
   const handleTimeslotClick = (id) => {
     setEventList((prevEventList) => {
@@ -251,53 +214,21 @@ function Edit(props) {
     });
   };
 
-  // // helper function to call api to update available events
-  // const updateData = async (details) => {
-  //   // commented out for now
-  //   console.log('details;', details);
-  //   const free = await dispatch(getEvent(details.id));
-
-  //   if (free) {
-  //     await dispatch(updateEvent(details.id, {
-  //       count: free.details.count + 1,
-  //       available: [...free.details.available, details.name],
-  //     }));
-  //   }
-  // };
-
-  // // calls helper function upon pressing "done"
-  // const handleDoneClick = () => {
-  //   // scheduler
-  //   Object.entries(eventList).forEach(([timeId, details]) => {
-  //     if (details.busy) {
-  //       const event = eventList[timeId];
-  //       event.count += 1;
-  //       event.available.push(userName);
-  //       // console.log('updated event: ', event);
-  //       eventList[timeId] = event;
-  //       // event.getAllEvents
-  //       // console.log('time and id:', timeId, details.key);
-  //       // updateData(details);
-  //     }
-  //     console.log('updated event list: ', eventList);
-  //   });
-  //   // navigate(`/scheduler/64778ca4a3211ffd41ac95e1/${JSON.stringify(eventList)}`);
-  //   navigate('/scheduler/647c01fb3bb36d74ffbcdd33');
-  // };
-
+  // helper function for handleDoneClick; updates available count and available list
   const updateData = async (eventId, user) => {
     const event = await dispatch(getEvent(eventId));
 
     if (event) {
       const updatedEvent = {
         count: event.details.count + 1,
-        available: [...event.details.available, userName],
+        available: [...event.details.available, user],
       };
 
       await dispatch(updateEvent(eventId, updatedEvent));
     }
   };
 
+  // on "done", calls helper function to update "busy" blocks in the api and navigate back to main
   const handleDoneClick = async () => {
     for (const [timeId, details] of Object.entries(eventList)) {
       if (details.busy) {
@@ -306,9 +237,10 @@ function Edit(props) {
       }
     }
 
-    navigate('/scheduler/647d45cc22e90f09dd8fba7f');
+    navigate(`/scheduler/${Id}`);
   };
 
+  // determine what color a 15 minute block should be depending on if it's a gcal event, free, or designated busy by the user
   const getTimeslotColor = (id, details, gcalIn) => {
     if (details.gcal) {
       return '#CAB8FF';
@@ -319,9 +251,8 @@ function Edit(props) {
     }
   };
 
-  console.log('event list:', eventList);
+  // console.log('event list:', eventList);
   return (
-    // <div>edit page</div>
     <div id="editPage">
       <div className="grid" id="editCalendar" style={{ marginLeft: '20px' }}>
         {Object.entries(eventList).map(([timeId, details]) => (
